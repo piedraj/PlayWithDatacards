@@ -25,17 +25,23 @@ nuisToConsider = [ y for y in DC.systs ]
 errors = {}
 for nuis in nuisToConsider:
     if nuis[2] == 'gmN': gmN = nuis[3][0]
+    else               : gmN = 0
     for channel in nuis[4]:
         if channel not in errors.keys(): errors[channel] = {}
         for process in nuis[4][channel]:
             if nuis[2] == 'gmN': gmN = nuis[3][0]
-            else               : gmN = 0
             if nuis[4][channel][process] == 0: continue
-            print nuis[2],gmN
+            #print nuis[2],gmN
             if gmN != 0:
                 newError = nuis[4][channel][process] * sqrt(gmN) / DC.exp[channel][process]
             else:
-                newError = fabs(1-nuis[4][channel][process])
+                #print nuis[4][channel][process]
+                if not isinstance ( nuis[4][channel][process], float ) :
+                    # [0.95, 1.23]
+                #if len(nuis[4][channel][process]) == 2 :
+                    newError = fabs((nuis[4][channel][process][1]-nuis[4][channel][process][0])/2.)   # symmetrized
+                else : 
+                    newError = fabs(1-nuis[4][channel][process])
             if process in errors[channel].keys():
                 errors[channel][process] += newError*newError
             else:
