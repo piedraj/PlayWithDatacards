@@ -5,7 +5,7 @@ Tools for datacards
 
 Where:
 
-    /home/amassiro/Latinos/PlayWithDatacards
+    /afs/cern.ch/user/a/amassiro/Limit/PlayWithDatacards
 
 
 # Modification tools
@@ -19,3 +19,4 @@ look here:
 # Transform datacard into a table
 
 
+    python tableFromCards.py  -d  /afs/cern.ch/user/a/amassiro/public/xLatinos/ww/WWDFcut0jet/hww-19.36fb.mH125.of_0j_shape.txt
