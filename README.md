@@ -21,3 +21,9 @@ look here:
 
     python tableFromCards.py  /afs/cern.ch/user/a/amassiro/public/xLatinos/ww/WWDFcut0jet/hww-19.36fb.mH125.of_0j_shape.txt
 
+e.g.
+
+    for ww
+    bash scripts/doDatacard2TableWW.sh
+
+
