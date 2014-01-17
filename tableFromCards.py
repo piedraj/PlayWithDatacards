@@ -74,6 +74,10 @@ for channel in DC.exp:
     print ("c |"),
 print "} \\hline"
 
+print ("| "),
+for channel in DC.exp:
+    print ("| %13s " % channel),
+print ("|")
 
 signals     = DC.list_of_signals()
 backgrounds = DC.list_of_backgrounds()
@@ -86,12 +90,17 @@ errtotbkg = {}
 for s in signals :
     print ("| %13s " % s),
     for channel in DC.exp:
-        print (" | %10.2f +/- %10.2f (rel = %10.2f) " % (DC.exp[channel][s],DC.exp[channel][s]*errors[channel][s],errors[channel][s])),
-        if channel not in    totsig.keys():    totsig[channel] = 0.0
-        if channel not in errtotsig.keys(): errtotsig[channel] = 0.0
-        totsig[channel]    = totsig[channel]    + DC.exp[channel][s]
-        errtotsig[channel] = errtotsig[channel] + (DC.exp[channel][s]*errors[channel][s] * DC.exp[channel][s]*errors[channel][s])
+        if s in DC.exp[channel].keys(): # possible that some backgrounds appear only in some channels
+            print (" | %10.2f +/- %10.2f (rel = %10.2f) " % (DC.exp[channel][s],DC.exp[channel][s]*errors[channel][s],errors[channel][s])),
+            if channel not in    totsig.keys():    totsig[channel] = 0.0
+            if channel not in errtotsig.keys(): errtotsig[channel] = 0.0
+            totsig[channel]    = totsig[channel]    + DC.exp[channel][s]
+            errtotsig[channel] = errtotsig[channel] + (DC.exp[channel][s]*errors[channel][s] * DC.exp[channel][s]*errors[channel][s])
+        else :
+            print (" | - "),
+
     print ("|")
+
 
 print ("\\hline")
 print ("| %13s " % "signal"),
@@ -105,11 +114,15 @@ print ("\\hline")
 for b in backgrounds :
     print ("| %13s " % b),
     for channel in DC.exp:
-        print (" | %10.2f +/- %10.2f (rel = %10.2f) " % (DC.exp[channel][b],DC.exp[channel][b]*errors[channel][b],errors[channel][b])),
-        if channel not in    totbkg.keys():    totbkg[channel] = 0.0
-        if channel not in errtotbkg.keys(): errtotbkg[channel] = 0.0
-        totbkg[channel]    = totbkg[channel]    + DC.exp[channel][b]
-        errtotbkg[channel] = errtotbkg[channel] + (DC.exp[channel][b]*errors[channel][b] * DC.exp[channel][b]*errors[channel][b])
+        if b in DC.exp[channel].keys(): # possible that some backgrounds appear only in some channels
+            print (" | %10.2f +/- %10.2f (rel = %10.2f) " % (DC.exp[channel][b],DC.exp[channel][b]*errors[channel][b],errors[channel][b])),
+            if channel not in    totbkg.keys():    totbkg[channel] = 0.0
+            if channel not in errtotbkg.keys(): errtotbkg[channel] = 0.0
+            totbkg[channel]    = totbkg[channel]    + DC.exp[channel][b]
+            errtotbkg[channel] = errtotbkg[channel] + (DC.exp[channel][b]*errors[channel][b] * DC.exp[channel][b]*errors[channel][b])
+        else :
+            print (" | - "),
+
     print ("|")
 
 

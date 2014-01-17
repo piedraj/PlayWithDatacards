@@ -12,3 +12,5 @@ python tableFromCards.py  /afs/cern.ch/user/a/amassiro/public/xLatinos/ww/WWSFcu
 echo "SF 1J"
 python tableFromCards.py  /afs/cern.ch/user/a/amassiro/public/xLatinos/ww/WWSFcut1jet/hww-19.36fb.mH125.sf_1j_shape.txt
 
+echo "All"
+python tableFromCards.py  /afs/cern.ch/user/a/amassiro/public/xLatinos/ww/hww-19.36fb.mH125.txt
