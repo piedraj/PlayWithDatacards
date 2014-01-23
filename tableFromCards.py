@@ -97,6 +97,7 @@ for s in signals :
             if channel not in errtotsig.keys(): errtotsig[channel] = 0.0
             totsig[channel]    = totsig[channel]    + DC.exp[channel][s]
             errtotsig[channel] = errtotsig[channel] + (DC.exp[channel][s]*errors[channel][s] * DC.exp[channel][s]*errors[channel][s])
+            #print " <<<  sqrt errtotsig[",channel,"] = ", sqrt(errtotsig[channel]) , ">>> "
         else :
             print (" & - "),
 

@@ -260,13 +260,13 @@ for channel in DC.exp:
     print "========================="
     print "\n latex style \n"
 
-    signals     = DC.list_of_signals()
-    backgrounds = DC.list_of_backgrounds()
+    #signals     = DC.list_of_signals()
+    #backgrounds = DC.list_of_backgrounds()
 
-    totsig    = {}
-    errtotsig = {}
-    totbkg    = {}
-    errtotbkg = {}
+    #totsig    = {}
+    #errtotsig = {}
+    #totbkg    = {}
+    #errtotbkg = {}
 
     print "\\begin{table}[h!]\\begin{center}"
     print ("\\%s{\\begin{tabular}{" % size),
@@ -294,28 +294,28 @@ for channel in DC.exp:
 
     print ("\\\\  \\hline ")
 
+    #for s in signals :
+        #if channel not in    totsig.keys():    totsig[channel] = 0.0
+        #if channel not in errtotsig.keys(): errtotsig[channel] = 0.0
+        #totsig[channel]    = totsig[channel]    + DC.exp[channel][s]
+        #errtotsig[channel] = errtotsig[channel] + (DC.exp[channel][s]*errors[channel][s] * DC.exp[channel][s]*errors[channel][s])
+
+    #errtotsig[channel] = sqrt(errtotsig[channel])
+
+    #for b in backgrounds :
+        #if channel not in    totbkg.keys():    totbkg[channel] = 0.0
+        #if channel not in errtotbkg.keys(): errtotbkg[channel] = 0.0
+        #totbkg[channel]    = totbkg[channel]    + DC.exp[channel][b]
+        #errtotbkg[channel] = errtotbkg[channel] + (DC.exp[channel][b]*errors[channel][b] * DC.exp[channel][b]*errors[channel][b])
+
+    #errtotbkg[channel] = sqrt(errtotbkg[channel])
+
     for s in signals :
-        if channel not in    totsig.keys():    totsig[channel] = 0.0
-        if channel not in errtotsig.keys(): errtotsig[channel] = 0.0
-        totsig[channel]    = totsig[channel]    + DC.exp[channel][s]
-        errtotsig[channel] = errtotsig[channel] + (DC.exp[channel][s]*errors[channel][s] * DC.exp[channel][s]*errors[channel][s])
-
-    errtotsig[channel] = sqrt(errtotsig[channel])
-
-    for b in backgrounds :
-        if channel not in    totbkg.keys():    totbkg[channel] = 0.0
-        if channel not in errtotbkg.keys(): errtotbkg[channel] = 0.0
-        totbkg[channel]    = totbkg[channel]    + DC.exp[channel][b]
-        errtotbkg[channel] = errtotbkg[channel] + (DC.exp[channel][b]*errors[channel][b] * DC.exp[channel][b]*errors[channel][b])
-
-    errtotbkg[channel] = sqrt(errtotbkg[channel])
-
-    for s in signals :
-        print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % ( DC.exp[channel][s],errors[channel][s],errors[channel][s]/ DC.exp[channel][s]*100)),
+        print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % ( DC.exp[channel][s],errors[channel][s]*DC.exp[channel][s],errors[channel][s]*100)),
     print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % (totsig[channel],errtotsig[channel],errtotsig[channel]/totsig[channel]*100)),
 
     for b in backgrounds :
-        print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % ( DC.exp[channel][b],errors[channel][b],errors[channel][b]/ DC.exp[channel][s]*100)),
+        print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % ( DC.exp[channel][b],errors[channel][b]*DC.exp[channel][s],errors[channel][b]*100)),
     print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % (totbkg[channel],errtotbkg[channel],errtotbkg[channel]/totbkg[channel]*100)),
     print ("\\\\  \\hline \\hline  ")
 
@@ -344,10 +344,10 @@ for channel in DC.exp:
                                 newError = fabs(1-nuis[4][channel][s])
                         if (newError != 0) : print (" & $\\pm$ %3.2f (%1.1f \\%%) " % (DC.exp[channel][s]*newError,newError*100)),
                         else : print (" & -"),
-                        temperror = temperror + newError*newError
+                        temperror = temperror + DC.exp[channel][s]*newError*DC.exp[channel][s]*newError
                     else : print (" & -"),
             temperror = sqrt(temperror)
-            if (temperror != 0) : print (" & $\\pm$ %5.1f (%5.1f \\%%) " % (temperror*totsig[channel],temperror*100)),
+            if (temperror != 0) : print (" & $\\pm$ %5.1f (%5.1f \\%%) " % (temperror,temperror/totsig[channel]*100)),
             else : print (" &  - "),
 
             temperror = 0.
@@ -370,10 +370,10 @@ for channel in DC.exp:
                                 newError = fabs(1-nuis[4][channel][b])
                         if (newError != 0) : print (" & $\\pm$ %3.2f (%1.1f \\%%) " % (DC.exp[channel][b]*newError,newError*100)),
                         else : print (" & -"),
-                        temperror = temperror + newError*newError
+                        temperror = temperror + DC.exp[channel][b]*newError*DC.exp[channel][b]*newError
                     else : print (" & -"),
             temperror = sqrt(temperror)
-            if (temperror != 0) : print (" &  $\\pm$ %5.1f (%5.1f \\%%) " % (temperror*totbkg[channel],temperror*100)),
+            if (temperror != 0) : print (" &  $\\pm$ %5.1f (%5.1f \\%%) " % (temperror,temperror/totbkg[channel]*100)),
             else : print (" &  - "),
             print ("\\\\  \\hline ")
 
