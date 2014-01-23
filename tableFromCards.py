@@ -30,6 +30,7 @@ for nuis in nuisToConsider:
         #print channel
         if channel not in errors.keys(): errors[channel] = {}
         for process in nuis[4][channel]:
+            newError = 0.
             if nuis[2] == 'gmN': gmN = nuis[3][0]
             if nuis[4][channel][process] == 0: continue
             #print nuis[2],gmN
@@ -67,17 +68,17 @@ print "\n latex style \n"
 
 print "\\begin{table}[h!]\\begin{center}"
 #print "\\%s{\\begin{tabular}{c|c|c|c|c|c|c|c|c||c||c} \\hline" % size
-print ("\\%s{\\begin{tabular}{|" % size),
+print ("\\%s{\\begin{tabular}{" % size)
 
 print ("c|"),
 for channel in DC.exp:
     print ("c |"),
 print "} \\hline"
 
-print ("| "),
+print (" "),
 for channel in DC.exp:
-    print ("| %13s " % channel),
-print ("|")
+    print ("& %13s " % channel),
+print ("\\\\")
 
 signals     = DC.list_of_signals()
 backgrounds = DC.list_of_backgrounds()
@@ -88,50 +89,50 @@ totbkg    = {}
 errtotbkg = {}
 
 for s in signals :
-    print ("| %13s " % s),
+    print (" %13s " % s),
     for channel in DC.exp:
         if s in DC.exp[channel].keys(): # possible that some backgrounds appear only in some channels
-            print (" | %10.2f +/- %10.2f (rel = %10.2f) " % (DC.exp[channel][s],DC.exp[channel][s]*errors[channel][s],errors[channel][s])),
+            print (" & %10.2f +/- %10.2f (rel = %10.2f) " % (DC.exp[channel][s],DC.exp[channel][s]*errors[channel][s],errors[channel][s])),
             if channel not in    totsig.keys():    totsig[channel] = 0.0
             if channel not in errtotsig.keys(): errtotsig[channel] = 0.0
             totsig[channel]    = totsig[channel]    + DC.exp[channel][s]
             errtotsig[channel] = errtotsig[channel] + (DC.exp[channel][s]*errors[channel][s] * DC.exp[channel][s]*errors[channel][s])
         else :
-            print (" | - "),
+            print (" & - "),
 
-    print ("|")
+    print ("\\\\")
 
 
 print ("\\hline")
-print ("| %13s " % "signal"),
+print ("& %13s " % "signal"),
 for channel in DC.exp:
     errtotsig[channel] = sqrt(errtotsig[channel])
-    print (" | %10.2f +/- %10.2f (rel = %10.2f) " % (totsig[channel],errtotsig[channel],errtotsig[channel]/totsig[channel])),
-print ("|")
+    print (" & %10.2f +/- %10.2f (rel = %10.2f) " % (totsig[channel],errtotsig[channel],errtotsig[channel]/totsig[channel])),
+print ("\\\\")
 print ("\\hline")
 
 
 for b in backgrounds :
-    print ("| %13s " % b),
+    print (" %13s " % b),
     for channel in DC.exp:
         if b in DC.exp[channel].keys(): # possible that some backgrounds appear only in some channels
-            print (" | %10.2f +/- %10.2f (rel = %10.2f) " % (DC.exp[channel][b],DC.exp[channel][b]*errors[channel][b],errors[channel][b])),
+            print (" & %10.2f +/- %10.2f (rel = %10.2f) " % (DC.exp[channel][b],DC.exp[channel][b]*errors[channel][b],errors[channel][b])),
             if channel not in    totbkg.keys():    totbkg[channel] = 0.0
             if channel not in errtotbkg.keys(): errtotbkg[channel] = 0.0
             totbkg[channel]    = totbkg[channel]    + DC.exp[channel][b]
             errtotbkg[channel] = errtotbkg[channel] + (DC.exp[channel][b]*errors[channel][b] * DC.exp[channel][b]*errors[channel][b])
         else :
-            print (" | - "),
+            print (" & - "),
 
-    print ("|")
+    print ("\\\\")
 
 
 print ("\\hline")
-print ("| %13s " % "background"),
+print (" %13s " % "background"),
 for channel in DC.exp:
     errtotbkg[channel] = sqrt(errtotbkg[channel])
-    print (" | %10.2f +/- %10.2f (rel = %10.2f) " % (totbkg[channel],errtotbkg[channel],errtotbkg[channel]/totbkg[channel])),
-print ("|")
+    print (" & %10.2f +/- %10.2f (rel = %10.2f) " % (totbkg[channel],errtotbkg[channel],errtotbkg[channel]/totbkg[channel])),
+print ("\\\\")
 print ("\\hline")
 
 
