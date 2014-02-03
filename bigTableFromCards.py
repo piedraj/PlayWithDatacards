@@ -13,10 +13,25 @@ parser.add_option("-m", "--mass", dest="mass",  default=125, type="float")
 parser.add_option("-f", "--file", dest="inputFile",  help="input file to join samples",   default="", type="string")
 
 
+
 (options, args) = parser.parse_args()
 options.bin = True # fake that is a binary output, so that we parse shape lines
 options.noJMax = False
 options.nuisancesToExclude = ''
+
+
+
+
+joinSamples = {}
+if os.path.exists(options.inputFile):
+  handle = open(options.inputFile,'r')
+  exec(handle)
+  handle.close()
+
+print "joinSamples = ", joinSamples
+
+
+
 
 from DatacardParser import *
 
