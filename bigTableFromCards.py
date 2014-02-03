@@ -10,6 +10,7 @@ parser.add_option("-s", "--stat",   dest="stat",          default=False, action=
 parser.add_option("-S", "--force-shape", dest="shape",    default=False, action="store_true")  # ignore systematic uncertainties to consider statistical uncertainties only
 parser.add_option("-a", "--asimov", dest="asimov",  default=False, action="store_true")
 parser.add_option("-m", "--mass", dest="mass",  default=125, type="float")
+parser.add_option("-f", "--file", dest="inputFile",  help="input file to join samples",   default="", type="string")
 
 
 (options, args) = parser.parse_args()
