@@ -26,7 +26,9 @@ cd -
 
 
 echo "SF loose tche"
-python bigTableFromCards.py  scripts/WWewk/qqHWWlnln-WW2jewk-2012-01Jan-Cut2012-SF-21/hww-19.36fb.mH125.sf_2j_shape.txt
+python bigTableFromCards.py  scripts/WWewk/qqHWWlnln-WW2jewk-2012-01Jan-Cut2012-SF-21/hww-19.36fb.mH125.sf_2j_shape.txt    -f scripts/joinSamples.py
+
+
 # tableFromCards.py
 
 echo "SF tight tche"
