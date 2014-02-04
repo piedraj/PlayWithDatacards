@@ -410,6 +410,10 @@ for channel in DC.exp:
 
 
 
+print "========================="
+print "========================="
+print "========================="
+print "========================="
 
 
 
@@ -418,9 +422,229 @@ for channel in DC.exp:
 
 
 
+print " reduced "
+
+print "joinSamples = " , joinSamples
 
 
 
+# one table fro each channel
+
+for channel in DC.exp:
+
+    ##################
+    # inverted table #
+    ##################
+
+
+    print " CHANNEL = ", channel
+    print "\n"
+    print "========================="
+    print "\n latex style \n"
+
+    signals     = DC.list_of_signals()
+    backgrounds = DC.list_of_backgrounds()
+    allprocesses = DC.list_of_procs()
+
+    totsig    = {}
+    errtotsig = {}
+    totbkg    = {}
+    errtotbkg = {}
+
+    toJoin = {}
+    toRemove = []  # because joint!
+    for newname,lista in joinSamples.iteritems() :
+        for rem in lista :
+            toRemove.append (rem)
+        #toJoin.append = (toJoin, rate, error)
+        toJoin.update ({newname: (0., 0.)})
+
+    print "\\begin{table}[h!]\\begin{center}"
+    print ("\\%s{\\begin{tabular}{" % size),
+    print ("c|"), # nuisance
+    for s in signals :
+        if ( channel in nuis[4] ) and ( s not in toRemove ):
+            print ("c |"),
+    for newname,lista in joinSamples.iteritems() :
+        isAsignal = False
+        for s in signals :
+            if s in lista :
+                isAsignal = True
+        if isAsignal :
+            print ("c |"),
+
+    print ("|c||"), # total sig
+    for b in backgrounds :
+        if ( channel in nuis[4] ) and ( b not in toRemove ) :
+            print ("c |"),
+    for newname,lista in joinSamples.iteritems() :
+        isAbackground = False
+        for b in backgrounds :
+            if b in lista :
+                isAbackground = True
+        if isAbackground :
+            print ("c |"),
+    print ("|c|"), # total bkg
+    print "} \\\\  \\hline "
+
+
+    for s in signals :
+        if ( channel in nuis[4] ) and ( s not in toRemove ):
+            print ("& %13s " % s),
+    for newname,lista in joinSamples.iteritems() :
+        isAsignal = False
+        for s in signals :
+            if s in lista :
+                isAsignal = True
+        if isAsignal :
+            print ("& %13s " % newname),
+
+    print ("& %13s " % "signal"),
+
+    for b in backgrounds :
+        if ( channel in nuis[4] ) and ( b not in toRemove ) :
+            print ("& %13s " % b),
+    for newname,lista in joinSamples.iteritems() :
+        isAbackground = False
+        for b in backgrounds :
+            if b in lista :
+                isAbackground = True
+        if isAbackground :
+            print ("& %13s " % newname),
+    print ("& %13s " % "background"),
+
+    print ("\\\\  \\hline ")
+
+    # calculate global
+    for s in signals :
+        if channel not in    totsig.keys():    totsig[channel] = 0.0
+        if channel not in errtotsig.keys(): errtotsig[channel] = 0.0
+        totsig[channel]    = totsig[channel]    + DC.exp[channel][s]
+        errtotsig[channel] = errtotsig[channel] + (DC.exp[channel][s]*errors[channel][s] * DC.exp[channel][s]*errors[channel][s])
+
+    errtotsig[channel] = sqrt(errtotsig[channel])
+
+    for b in backgrounds :
+        if channel not in    totbkg.keys():    totbkg[channel] = 0.0
+        if channel not in errtotbkg.keys(): errtotbkg[channel] = 0.0
+        totbkg[channel]    = totbkg[channel]    + DC.exp[channel][b]
+        errtotbkg[channel] = errtotbkg[channel] + (DC.exp[channel][b]*errors[channel][b] * DC.exp[channel][b]*errors[channel][b])
+
+    errtotbkg[channel] = sqrt(errtotbkg[channel])
+
+
+    for newname,(rate, error) in toJoin.iteritems() :
+        for p in allprocesses :
+            if p == newname :
+                rate  = rate  + DC.exp[channel][p]
+                error = error + (DC.exp[channel][p]*errors[channel][p] * DC.exp[channel][p]*errors[channel][p])
+        error = sqrt(error)
+
+
+    # now print
+
+    for s in signals :
+        if s not in toRemove :
+            print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % ( DC.exp[channel][s],errors[channel][s]*DC.exp[channel][s],errors[channel][s]*100)),
+        print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % (totsig[channel],errtotsig[channel],errtotsig[channel]/totsig[channel]*100)),
+    for newname,lista in joinSamples.iteritems() :
+        isAsignal = False
+        for s in signals :
+            if s in lista :
+                isAsignal = True
+        if isAsignal :
+            (rate, error) = toJoin[newname]
+            print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % ( rate ,error, error/rate)),
+
+    print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % (totsig[channel],errtotsig[channel],errtotsig[channel]/totsig[channel]*100)),
+
+
+    for b in backgrounds :
+        print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % ( DC.exp[channel][b],errors[channel][b]*DC.exp[channel][s],errors[channel][b]*100)),
+
+    for newname,lista in joinSamples.iteritems() :
+        isAbackground = False
+        for b in backgrounds :
+            if b in lista :
+                isAbackground = True
+        if isAbackground :
+            (rate, error) = toJoin[newname]
+            print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % ( rate ,error, error/rate)),
+
+    print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % (totbkg[channel],errtotbkg[channel],errtotbkg[channel]/totbkg[channel]*100)),
+    print ("\\\\  \\hline \\hline  ")
+
+
+    ## start list of nuisances
+    for nuis in nuisToConsider:
+        if channel in nuis[4]:
+            print (" %13s " % nuis[0]),
+            temperror = 0.
+            for s in signals :
+                if s in DC.exp[channel].keys(): # possible that some backgrounds appear only in some channels
+                    newError = 0.
+                    if nuis[2] == 'gmN': gmN = nuis[3][0]
+                    else               : gmN = 0
+                    if nuis[4][channel][s] != 0:
+                        #print nuis[2],gmN
+                        if gmN != 0:
+                            #print "gmN = ", gmN, " ; DC.exp[",channel,"][",s,"] = ", DC.exp[channel][s], "nuis[4][",channel,"][",s,"] = ", nuis[4][channel][s]
+                            newError = nuis[4][channel][s] * sqrt(gmN) / DC.exp[channel][s]
+                        else:
+                            #print nuis[4][channel][s]
+                            if not isinstance ( nuis[4][channel][s], float ) :
+                                # [0.95, 1.23]
+                               newError = fabs((nuis[4][channel][s][1]-nuis[4][channel][s][0])/2.)   # symmetrized
+                            else : 
+                                newError = fabs(1-nuis[4][channel][s])
+                        if (newError != 0) : print (" & $\\pm$ %3.2f (%1.1f \\%%) " % (DC.exp[channel][s]*newError,newError*100)),
+                        else : print (" & -"),
+                        temperror = temperror + DC.exp[channel][s]*newError*DC.exp[channel][s]*newError
+                    else : print (" & -"),
+            temperror = sqrt(temperror)
+            if (temperror != 0) : print (" & $\\pm$ %5.1f (%5.1f \\%%) " % (temperror,temperror/totsig[channel]*100)),
+            else : print (" &  - "),
+
+            temperror = 0.
+            for b in backgrounds :
+                if b in DC.exp[channel].keys(): # possible that some backgrounds appear only in some channels
+                    newError = 0.
+                    if nuis[2] == 'gmN': gmN = nuis[3][0]
+                    else               : gmN = 0
+                    if nuis[4][channel][b] != 0:
+                        #print nuis[2],gmN
+                        if gmN != 0:
+                            #print "gmN = ", gmN, " ; DC.exp[",channel,"][",s,"] = ", DC.exp[channel][b], "nuis[4][",channel,"][",s,"] = ", nuis[4][channel][b]
+                            newError = nuis[4][channel][b] * sqrt(gmN) / DC.exp[channel][b]
+                        else:
+                            #print nuis[4][channel][b]
+                            if not isinstance ( nuis[4][channel][b], float ) :
+                                # [0.95, 1.23]
+                               newError = fabs((nuis[4][channel][b][1]-nuis[4][channel][b][0])/2.)   # symmetrized
+                            else : 
+                                newError = fabs(1-nuis[4][channel][b])
+                        if (newError != 0) : print (" & $\\pm$ %3.2f (%1.1f \\%%) " % (DC.exp[channel][b]*newError,newError*100)),
+                        else : print (" & -"),
+                        temperror = temperror + DC.exp[channel][b]*newError*DC.exp[channel][b]*newError
+                    else : print (" & -"),
+            temperror = sqrt(temperror)
+            if (temperror != 0) : print (" &  $\\pm$ %5.1f (%5.1f \\%%) " % (temperror,temperror/totbkg[channel]*100)),
+            else : print (" &  - "),
+            print ("\\\\  \\hline ")
+
+
+    print ("\\hline ")
+
+
+
+    print "\\end{tabular}"
+    print "}"
+    print "\\end{center}"
+    print "\\end{table}"
+
+
+    print "========================="
+    print "\n\n\n"
 
 
 
