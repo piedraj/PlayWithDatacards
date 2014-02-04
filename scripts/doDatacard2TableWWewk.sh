@@ -26,19 +26,17 @@ cd -
 
 
 echo "SF loose tche"
-python bigTableFromCards.py  scripts/WWewk/qqHWWlnln-WW2jewk-2012-01Jan-Cut2012-SF-21/hww-19.36fb.mH125.sf_2j_shape.txt    -f scripts/joinSamples.py
-
-
+python bigTableFromCards.py  scripts/WWewk/qqHWWlnln-WW2jewk-2012-01Jan-Cut2012-SF-21/hww-19.36fb.mH125.sf_2j_shape.txt          -f scripts/joinSamples.py      -D
 # tableFromCards.py
 
 echo "SF tight tche"
-python bigTableFromCards.py  scripts/WWewk/qqHWWlnln-WW2jewk-2012-01Jan-Cut2012-SF-05/hww-19.36fb.mH125.sf_2jtche05_shape.txt
+python bigTableFromCards.py  scripts/WWewk/qqHWWlnln-WW2jewk-2012-01Jan-Cut2012-SF-05/hww-19.36fb.mH125.sf_2jtche05_shape.txt    -f scripts/joinSamples.py      -D
 # tableFromCards.py
 
 echo "DF loose tche"
-python bigTableFromCards.py  scripts/WWewk/qqHWWlnln-WW2jewk-2012-01Jan-Cut2012-DF-21/hww-19.36fb.mH125.of_2j_shape.txt
+python bigTableFromCards.py  scripts/WWewk/qqHWWlnln-WW2jewk-2012-01Jan-Cut2012-DF-21/hww-19.36fb.mH125.of_2j_shape.txt          -f scripts/joinSamples.py      -D
 # tableFromCards.py
 
 echo "DF tight tche"
-python bigTableFromCards.py  scripts/WWewk/qqHWWlnln-WW2jewk-2012-01Jan-Cut2012-DF-05/hww-19.36fb.mH125.of_2jtche05_shape.txt
+python bigTableFromCards.py  scripts/WWewk/qqHWWlnln-WW2jewk-2012-01Jan-Cut2012-DF-05/hww-19.36fb.mH125.of_2jtche05_shape.txt    -f scripts/joinSamples.py      -D
 # tableFromCards.py
