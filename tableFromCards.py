@@ -67,7 +67,6 @@ print "========================="
 print "\n latex style \n"
 
 print "\\begin{table}[h!]\\begin{center}"
-#print "\\%s{\\begin{tabular}{c|c|c|c|c|c|c|c|c||c||c} \\hline" % size
 print ("\\%s{\\begin{tabular}{" % size)
 
 print ("c|"),
