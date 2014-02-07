@@ -31,6 +31,8 @@ e.g.
     for ww
     bash scripts/doDatacard2TableWW.sh
 
+    for wwewk
+    bash scripts/doDatacard2TableWWewk.sh
 
 
 # Combine cards
