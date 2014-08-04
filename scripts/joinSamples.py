@@ -8,7 +8,7 @@
 
 joinSamples.update({'Higgs'        : ['qqH','ggH','ZH','WH']})
 joinSamples.update({'VVV-WZ-ZZ-Vg' : ['VV','VVV','Vg','VgS']})
-joinSamples.update({'WW'           : ['ggWW','WW']})
+#joinSamples.update({'WW'           : ['ggWW','WW']})
 joinSamples.update({'Top'          : ['TopPt0','TopPt1']})
 joinSamples.update({'DY'           : ['DYee','DYmm','DYTT']})
 
