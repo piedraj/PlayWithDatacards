@@ -25,6 +25,9 @@ look here:
 # expand all nuisances:
 
     python bigTableFromCards.py  /afs/cern.ch/user/a/amassiro/public/xLatinos/ww/WWDFcut0jet/hww-19.36fb.mH125.of_0j_shape.txt
+    python bigTableFromCards.py --file scripts/joinSamples.py  /afs/cern.ch/user/a/amassiro/public/xLatinos/ww/WWDFcut0jet/hww-19.36fb.mH125.of_0j_shape.txt
+
+
 
 e.g.
 
