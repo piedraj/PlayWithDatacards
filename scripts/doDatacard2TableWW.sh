@@ -25,3 +25,16 @@ python bigTableFromCards.py  --file scripts/joinSamples.py   /afs/cern.ch/user/a
 echo "SF 0J"
 python bigTableFromCards.py  --file scripts/joinSamples.py   /afs/cern.ch/user/a/amassiro/public/xLatinos/ww/WWSFcut0jet/hww-19.36fb.mH125.sf_0j_shape.txt
 
+
+
+
+
+
+# jet resolution added
+
+echo "DF 0J"
+python bigTableFromCards.py  --file scripts/joinSamples.py   /afs/cern.ch/user/a/amassiro/public/xLatinos/ww_04Aug2014/WWDFcut0jet/hww-19.36fb.mH125.of_0j_shape.txt
+
+echo "SF 0J"
+python bigTableFromCards.py  --file scripts/joinSamples.py   /afs/cern.ch/user/a/amassiro/public/xLatinos/ww_04Aug2014/WWSFcut0jet/hww-19.36fb.mH125.sf_0j_shape.txt
+
