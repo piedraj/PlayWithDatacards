@@ -595,7 +595,8 @@ for channel in DC.exp:
     ## start list of nuisances
     for nuis in nuisToConsider:
         if channel in nuis[4]:
-            print (" %13s " % nuis[0]),
+            #print (" %13s " % nuis[0].translate(None, '_')),
+            print (" %13s " % nuis[0].replace('_', '-')),
 
             # clear the "error" for the joint sample, not the rate!
             for newname,lista in joinSamples.iteritems() :
