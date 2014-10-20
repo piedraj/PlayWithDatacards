@@ -586,7 +586,7 @@ for channel in DC.exp:
         if isAbackground :
             (rate, error) = toJoin[newname]
             #print "name = ",newname," :: ",rate," +/- ", error
-            print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % ( rate ,error, error/rate)),
+            print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % ( rate ,error, error/rate * 100)),
 
     print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % (totbkg[channel],errtotbkg[channel],errtotbkg[channel]/totbkg[channel]*100)),
     print ("\\\\  \\hline \\hline  ")
