@@ -21,6 +21,10 @@ look here:
 
     python tableFromCards.py  /afs/cern.ch/user/a/amassiro/public/xLatinos/ww/WWDFcut0jet/hww-19.36fb.mH125.of_0j_shape.txt
 
+    python tableFromCards.py   /afs/cern.ch/user/a/amassiro/Limit/ModificationDatacards/hwidth/0jetDF8TeV/hww-19.36fb.mH125.of_0j_shape.txt
+    python tableFromCards.py   /afs/cern.ch/user/a/amassiro/Limit/ModificationDatacards/hwidth/1jetDF8TeV/hww-19.36fb.mH125.of_1j_shape.txt
+    python tableFromCards.py   /afs/cern.ch/user/a/amassiro/Limit/ModificationDatacards/hwidth/2jetDF8TeV/hww-19.36fb.mH125.of_2j_shape.txt
+
 
 # expand all nuisances:
 
@@ -38,6 +42,15 @@ look here:
 
     python bigTableFromCards.py --file scripts/joinSamples.py  /afs/cern.ch/user/a/amassiro/public/xLatinos/ww_17Oct2014_POW/WWDFcut0jet/hww-19.36fb.mH125.of_0j_shape.txt
     python bigTableFromCards.py --file scripts/joinSamples.py  /afs/cern.ch/user/a/amassiro/public/xLatinos/ww_17Oct2014_POW/WWSFcut0jet/hww-19.36fb.mH125.sf_0j_shape.txt
+
+    python bigTableFromCards.py --file scripts/joinSamples_hwidth.py  /afs/cern.ch/user/a/amassiro/Limit/ModificationDatacards/hwidth/0jetDF8TeV/hww-19.36fb.mH125.of_0j_shape.txt
+    python bigTableFromCards.py --file scripts/joinSamples_hwidth.py  /afs/cern.ch/user/a/amassiro/Limit/ModificationDatacards/hwidth/1jetDF8TeV/hww-19.36fb.mH125.of_1j_shape.txt
+    python bigTableFromCards.py --file scripts/joinSamples_hwidth.py  /afs/cern.ch/user/a/amassiro/Limit/ModificationDatacards/hwidth/2jetDF8TeV/hww-19.36fb.mH125.of_2j_shape.txt
+
+
+
+
+
 
 e.g.
 

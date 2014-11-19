@@ -76,7 +76,7 @@ print "} \\hline"
 
 print (" "),
 for channel in DC.exp:
-    print ("& %13s " % channel),
+    print ("& %13s " % channel.replace('_', '-')),
 print ("\\\\ \\hline")
 
 signals     = DC.list_of_signals()
@@ -88,7 +88,7 @@ totbkg    = {}
 errtotbkg = {}
 
 for s in signals :
-    print (" %13s " % s),
+    print (" %13s " % s.replace('_', '-')),
     for channel in DC.exp:
         if s in DC.exp[channel].keys(): # possible that some backgrounds appear only in some channels
             print (" & %10.2f +/- %10.2f (%10.0f \\%%) " % (DC.exp[channel][s],DC.exp[channel][s]*errors[channel][s],errors[channel][s]*100)),
@@ -113,7 +113,7 @@ print ("\\hline")
 
 
 for b in backgrounds :
-    print (" %13s " % b),
+    print (" %13s " % b.replace('_', '-')),
     for channel in DC.exp:
         if b in DC.exp[channel].keys(): # possible that some backgrounds appear only in some channels
             print (" & %10.2f +/- %10.2f (%10.0f \\%%) " % (DC.exp[channel][b],DC.exp[channel][b]*errors[channel][b],errors[channel][b]*100)),
