@@ -568,7 +568,7 @@ for channel in DC.exp:
                 isAsignal = True
         if isAsignal :
             (rate, error) = toJoin[newname]
-            print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % ( rate ,error, error/rate)),
+            print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % ( rate ,error, error/rate*100)),
 
     if options.doSignal : 
         print (" & %5.1f $\\pm$ %5.1f (%5.1f \\%%) " % (totsig[channel],errtotsig[channel],errtotsig[channel]/totsig[channel]*100)),
