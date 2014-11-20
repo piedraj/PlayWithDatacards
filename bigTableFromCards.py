@@ -550,7 +550,9 @@ for channel in DC.exp:
             if p in lista :
                 (rate, error) = toJoin[newname]
                 rate  = rate  + DC.exp[channel][p]
-                error = sqrt(error*error + (DC.exp[channel][p]*errors[channel][p] * DC.exp[channel][p]*errors[channel][p]))
+                # for a given nuisance the errors are added linearly among different samples, and NOT in quadrature
+                #error = sqrt(error*error + (DC.exp[channel][p]*errors[channel][p] * DC.exp[channel][p]*errors[channel][p]))
+                error = error + (DC.exp[channel][p]*errors[channel][p])
                 toJoin.update ({newname: (rate, error)})
                 #print "p[ + ",p,"::",newname,"] :: rate = ",rate, " +/- ",error
 
@@ -636,7 +638,9 @@ for channel in DC.exp:
                                     error = sqrt(error*error + DC.exp[channel][s]*newError*DC.exp[channel][s]*newError)
                                     toJoin.update ({newname: (rate, error)})
 
-                        temperror = temperror + DC.exp[channel][s]*newError*DC.exp[channel][s]*newError
+                        #temperror = temperror + DC.exp[channel][s]*newError*DC.exp[channel][s]*newError
+                        # for a given nuisance the errors are added linearly among different samples, and NOT in quadrature
+                        temperror = temperror + DC.exp[channel][s]*newError
                     else :
                         if s not in toRemove :
                             print (" & -"),
@@ -654,8 +658,8 @@ for channel in DC.exp:
                         print (" & - "),
 
 
-
-            temperror = sqrt(temperror)
+            # for a given nuisance the errors are added linearly among different samples, and NOT in quadrature
+            #temperror = sqrt(temperror)
             if options.doSignal : 
                 if (temperror != 0) : print (" & $\\pm$ %5.1f (%5.1f \\%%) " % (temperror,temperror/totsig[channel]*100)),
                 else : print (" &  - "),
@@ -692,11 +696,15 @@ for channel in DC.exp:
                                     toJoin.update ({newname: (rate, error)})
                                     #print "p[ + ",b,"::",newname,"] :: rate = ",rate, " +/- ",error
 
-                        temperror = temperror + DC.exp[channel][b]*newError*DC.exp[channel][b]*newError
+                        # for a given nuisance the errors are added linearly among different samples, and NOT in quadrature
+                        #temperror = temperror + DC.exp[channel][b]*newError*DC.exp[channel][b]*newError
+                        temperror = temperror + DC.exp[channel][b]*newError
                     else :
                         if b not in toRemove :
                             print (" & -"),
-            temperror = sqrt(temperror)
+
+            # for a given nuisance the errors are added linearly among different samples, and NOT in quadrature
+            #temperror = sqrt(temperror)
 
             for newname,lista in joinSamples.iteritems() :
                 isAbackground = False
