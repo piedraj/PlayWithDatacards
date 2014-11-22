@@ -265,12 +265,12 @@ for channel in DC.exp:
                 if nuis[0] in all_absolute_errors_joined.keys() :
                   if newname in all_absolute_errors_joined[nuis[0]].keys() :
                     toJoin.update ({newname: (rate, all_absolute_errors_joined[nuis[0]][newname])})
-                            if (newError != 0) :
-                                print (" & $\\pm$ %3.2f (%1.1f \\%%) " % (DC.exp[channel][s],all_absolute_errors_joined[nuis[0]][newname], all_absolute_errors_joined[nuis[0]][newname] / DC.exp[channel][s] *100)),
-                            else : 
-                                print (" & -"),
+                    if (newError != 0) :
+                      print (" & $\\pm$ %3.2f (%1.1f \\%%) " % (DC.exp[channel][s],all_absolute_errors_joined[nuis[0]][newname], all_absolute_errors_joined[nuis[0]][newname] / DC.exp[channel][s] *100)),
+                    else : 
+                      print (" & -"),
 
-                if nuis[0] in all_absolute_errors_joined.keys() :
+
 
 
 
