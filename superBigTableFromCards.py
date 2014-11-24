@@ -162,6 +162,8 @@ for channel in DC.exp:
         if channel not in errtotbkg.keys(): errtotbkg[channel] = 0.0
         totbkg[channel]    = totbkg[channel]    + DC.exp[channel][b]
 
+    #print " toJoin = ", toJoin
+
     # all the samples, in joint mode
     # first upload the total rate ...
     for newname,lista in joinSamples.iteritems() :
@@ -172,12 +174,21 @@ for channel in DC.exp:
                 toJoin.update ({newname: (rate, error)})
     # ... then upload the uncertainty on the total rate -> absolute uncertainty is summed in quadrature among different nuisances
     for nuis, proc_error in all_absolute_errors_joined.iteritems() :
+      #print "all_absolute_errors_joined[",nuis,"].iteritems() = ", all_absolute_errors_joined[nuis].iteritems()
+      #print "all_absolute_errors_joined[",nuis,"] = ", all_absolute_errors_joined[nuis]
       for proc, error in all_absolute_errors_joined[nuis].iteritems() :
         #print "is ", proc, " in ", joinSamples.keys()
+        #print "is it?", proc
         if proc in joinSamples.keys() :
-          (rate, error) = toJoin[newname]
+          #print "yes, in the keys"
+          #print " and it is = ", toJoin[proc]
+          (rate, error) = toJoin[proc]
+          #print " old: ", proc, " : ", rate, " : ", error
           error = sqrt((error*error) + (all_absolute_errors_joined[nuis][proc]*all_absolute_errors_joined[nuis][proc]))
-          toJoin.update ({newname: (rate, error)})
+          toJoin.update ({proc: (rate, error)})
+          #print " new: ", proc, " : ", rate, " : ", error
+
+    #print " toJoin = ", toJoin
 
     # and upload the tot signal and tot background errors
     for nuis, proc_error in allerrors[channel].iteritems() :
@@ -185,6 +196,9 @@ for channel in DC.exp:
     for nuis, proc_error in allerrors[channel].iteritems() :
       errtotsig[channel]  = sqrt(errtotsig[channel]*errtotsig[channel]  + all_absolute_errors_signal[nuis]*all_absolute_errors_signal[nuis])
       
+      
+    #print " toJoin = ", toJoin
+    #print " all_absolute_errors_joined = ", all_absolute_errors_joined
      
           
     #############a      
@@ -306,9 +320,10 @@ for channel in DC.exp:
                 if nuis[0] in all_absolute_errors_joined.keys() :
                   if newname in all_absolute_errors_joined[nuis[0]].keys() :
                     #toJoin.update ({newname: (rate, all_absolute_errors_joined[nuis[0]][newname])})
-                    denumerator = DC.exp[channel][s]
+                    (rate,error) = toJoin[newname]
+                    denumerator = rate
                     if (denumerator != 0.) :
-                      print (" & $\\pm$ %3.2f (%1.1f \\%%) " % (all_absolute_errors_joined[nuis[0]][newname], all_absolute_errors_joined[nuis[0]][newname] / DC.exp[channel][s] *100)),
+                      print (" & $\\pm$ %3.2f (%1.1f \\%%) " % (all_absolute_errors_joined[nuis[0]][newname], all_absolute_errors_joined[nuis[0]][newname] / rate *100)),
                     else : 
                       print (" & -"),
                   else : 
@@ -332,9 +347,10 @@ for channel in DC.exp:
                 if nuis[0] in all_absolute_errors_joined.keys() :
                   if newname in all_absolute_errors_joined[nuis[0]].keys() :
                     #toJoin.update ({newname: (rate, all_absolute_errors_joined[nuis[0]][newname])})
-                    denumerator = DC.exp[channel][s]
+                    (rate,error) = toJoin[newname]
+                    denumerator = rate
                     if (denumerator != 0.) :
-                      print (" & $\\pm$ %3.2f (%1.1f \\%%) " % (all_absolute_errors_joined[nuis[0]][newname], all_absolute_errors_joined[nuis[0]][newname] / DC.exp[channel][s] *100)),
+                      print (" & $\\pm$ %3.2f (%1.1f \\%%) " % (all_absolute_errors_joined[nuis[0]][newname], all_absolute_errors_joined[nuis[0]][newname] / rate *100)),
                     else : 
                       print (" & -"),
                   else : 
