@@ -112,12 +112,16 @@ for channel in DC.exp:
 
     # now add the "not merged" in the joint list, as singletons
     for process in allprocesses :
+      #print "is ",process," not in ",toRemove, " ?" 
       if process not in toRemove :
-        toJoin.update ({rem: (0., 0.)})
-        joinSamples.update ({rem : [rem]})
+        #print "yes!: ",process 
+        toJoin.update ({process: (0., 0.)})
+        joinSamples.update ({process : [process]})
+
 
     print "joinSamples = ",joinSamples
-
+    print "toRemove = ", toRemove
+    
     # for a given nuisance the effects on all processes sum up linearly
     
     # prepare a useful table : [nuisance][joined process] = value of uncertainty in absolute values (e.g. +/- 23.54)
