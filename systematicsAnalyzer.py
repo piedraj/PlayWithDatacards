@@ -256,7 +256,7 @@ elif "tex" in options.format:
     sys.stdout.write ('\\label{tab:prefit-nuisance-' + the_only_channel + '}')
     print '  }'
     print '\\end{center}'
-    print '\\end{table}[h!]'
+    print '\\end{table}'
     #print '\\end{landscape}'
 
 
