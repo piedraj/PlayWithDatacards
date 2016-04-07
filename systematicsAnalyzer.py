@@ -252,8 +252,8 @@ elif "tex" in options.format:
     print '  \\end{tabular}',
     print '}' 
     print '  \\caption{'
-    print '     Summary table:: prefit nuisances for ', the_only_channel, ' .'
-    sys.stdout.write ('\\label{tab:prefit-nuisance-' + the_only_channel + '}')
+    print '     Summary table:: prefit nuisances for ', (the_only_channel).replace('_', '-'), ' .'
+    sys.stdout.write ('\\label{tab:prefit-nuisance-' + (the_only_channel).replace('_', '-') + '}')
     print '  }'
     print '\\end{center}'
     print '\\end{table}'
