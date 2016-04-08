@@ -10,6 +10,8 @@ from math import *
 from optparse import OptionParser
 
 
+os.environ['TERM'] = 'linux'
+
 
 parser = OptionParser()
 parser.add_option("-f", "--format",  type="string",   dest="format", default="html", help="Format for output number")
