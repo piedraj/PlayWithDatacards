@@ -170,7 +170,8 @@ def parseCard(file, options):
                     if (pdf not in ["lnN","lnU"]) and ("?" not in pdf): raise RuntimeError, "Asymmetric errors are allowed only for Log-normals"
                     errline[b][p] = [ float(x) for x in r.split("/") ]
                     for v in errline[b][p]:
-                        if v <= 0.00: raise ValueError('Found "%s" in the nuisances affecting %s for %s. This would lead to NANs later on, so please fix it.'%(r,p,b))
+                        #if v <= 0.00: raise ValueError('Found "%s" in the nuisances affecting %s for %s. This would lead to NANs later on, so please fix it.'%(r,p,b))
+                        if v <= 0.00: print ('Found "%s" in the nuisances affecting %s for %s. This would lead to NANs later on, so please fix it.'%(r,p,b))
                 else:
                     errline[b][p] = float(r)
                     #values of 0.0 are treated as 1.0; scrap negative values.

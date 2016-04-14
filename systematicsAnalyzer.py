@@ -266,5 +266,50 @@ elif "tex" in options.format:
     print ''
     print ''
     
+    
+    # now summary table with rates
+    
+    print ''
+    print ''
+    print ''
+    
+    #print '\\begin{landscape}'
+    print '\\begin{table}[h!]\\begin{center}'
+    #print '\\footnotesize{' 
+    print '\\tiny{'
+    #print '{\\fontsize{2.5}{4}\\selectfont'
+    print '{\\fontsize{1.5}{1.0}\\selectfont'
+    print '  \\begin{tabular}{',
+
+    sys.stdout.write ('c|') # the column with the names   
+    sys.stdout.write ('c|') # the column with the number   
+    print '}'
+
+    for signal in signals :
+      print (" %13s " % signal.replace('_', '-')),
+      print (" & %.2f \\\\ " % DC.exp[the_only_channel][signal] )
+    print '\\hline'
+      
+    for background in backgrounds :
+      print (" %13s " % background.replace('_', '-')),
+      print (" & %.2f \\\\ " % DC.exp[the_only_channel][background] )
+    print '\\hline'
+
+    print '  \\end{tabular}',
+    print '}' 
+    print '  \\caption{'
+    print '     Summary table:: prefit rates for ', (the_only_channel).replace('_', '-'), ' .'
+    sys.stdout.write ('\\label{tab:prefit-rates-' + (the_only_channel).replace('_', '-') + '}')
+    print '  }'
+    print '\\end{center}'
+    print '\\end{table}'
+    #print '\\end{landscape}'
+
+    print ''
+    print ''
+    print ''
+    
+    
+    
  
     
