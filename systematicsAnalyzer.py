@@ -192,7 +192,7 @@ elif "tex" in options.format:
     #print '\\begin{landscape}'
     print '\\begin{table}[h!]\\begin{center}'
     #print '\\footnotesize{' 
-    print '\\tiny{'
+    #print '\\tiny{'
     #print '{\\fontsize{2.5}{4}\\selectfont'
     print '{\\fontsize{1.5}{1.0}\\selectfont'
     print '  \\begin{tabular}{',
@@ -278,7 +278,7 @@ elif "tex" in options.format:
     #print '\\footnotesize{' 
     print '\\tiny{'
     #print '{\\fontsize{2.5}{4}\\selectfont'
-    print '{\\fontsize{1.5}{1.0}\\selectfont'
+    #print '{\\fontsize{1.5}{1.0}\\selectfont'
     print '  \\begin{tabular}{',
 
     sys.stdout.write ('c|') # the column with the names   

@@ -92,6 +92,8 @@ e.g.
     
 
     
+    # do all these steps
+    
     cd /afs/cern.ch/user/a/amassiro/Limit/PlayWithDatacards
     cd /afs/cern.ch/user/a/amassiro/Framework/Combine/CMSSW_7_1_15/src/HiggsAnalysis/CombinedLimit
     cmsenv
