@@ -99,21 +99,47 @@ e.g.
     cmsenv
     scramv1 b -j 20
     cd -
+
+    
+    
+    
     
     python      systematicsAnalyzer.py    \
-        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggHTest/datacards/hww2l2v_13TeV_em_0j/mllVSmth/datacard.txt   \
+        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggH/datacards/hww2l2v_13TeV_em_0j/mllVSmth/datacard.txt.pruned.txt   \
        --all    -m      125     -f      tex    >     hww2l2v_13TeV_em_0j.tex
     
     python      systematicsAnalyzer.py    \
-        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggHTest/datacards/hww2l2v_13TeV_me_0j/mllVSmth/datacard.txt   \
+        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggH/datacards/hww2l2v_13TeV_me_0j/mllVSmth/datacard.txt.pruned.txt   \
        --all    -m      125     -f      tex    >     hww2l2v_13TeV_me_0j.tex
     
     python      systematicsAnalyzer.py    \
-        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggHTest/datacards/hww2l2v_13TeV_em_1j/mllVSmth/datacard.txt   \
+        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggH/datacards/hww2l2v_13TeV_em_1j/mllVSmth/datacard.txt.pruned.txt   \
        --all    -m      125     -f      tex    >     hww2l2v_13TeV_em_1j.tex
     
     python      systematicsAnalyzer.py    \
-        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggHTest/datacards/hww2l2v_13TeV_me_1j/mllVSmth/datacard.txt   \
+        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggH/datacards/hww2l2v_13TeV_me_1j/mllVSmth/datacard.txt.pruned.txt   \
+       --all    -m      125     -f      tex    >     hww2l2v_13TeV_me_1j.tex
+
+       
+       
+       
+       
+       
+       
+    python      systematicsAnalyzer.py    \
+        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggH/datacards/hww2l2v_13TeV_em_0j/mllVSmth/datacard.txt   \
+       --all    -m      125     -f      tex    >     hww2l2v_13TeV_em_0j.tex
+    
+    python      systematicsAnalyzer.py    \
+        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggH/datacards/hww2l2v_13TeV_me_0j/mllVSmth/datacard.txt   \
+       --all    -m      125     -f      tex    >     hww2l2v_13TeV_me_0j.tex
+    
+    python      systematicsAnalyzer.py    \
+        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggH/datacards/hww2l2v_13TeV_em_1j/mllVSmth/datacard.txt   \
+       --all    -m      125     -f      tex    >     hww2l2v_13TeV_em_1j.tex
+    
+    python      systematicsAnalyzer.py    \
+        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggH/datacards/hww2l2v_13TeV_me_1j/mllVSmth/datacard.txt   \
        --all    -m      125     -f      tex    >     hww2l2v_13TeV_me_1j.tex
     
     

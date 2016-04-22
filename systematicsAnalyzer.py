@@ -107,7 +107,7 @@ for (lsyst,nofloat,pdf,pdfargs,errline) in DC.systs:
                         vals.append(1.)
             else: vals = errline[b][p] if type(errline[b][p]) == list else [ errline[b][p] ]
             for val in vals:
-                if val < 1: val = 1.0/val
+                if val < 1 and val !=0 : val = 1.0/val
                 minEffect = min(minEffect, val)
                 maxEffect = max(maxEffect, val)
     channelsShort = commonStems(channels)
@@ -276,7 +276,7 @@ elif "tex" in options.format:
     #print '\\begin{landscape}'
     print '\\begin{table}[h!]\\begin{center}'
     #print '\\footnotesize{' 
-    print '\\tiny{'
+    #print '\\tiny{'
     #print '{\\fontsize{2.5}{4}\\selectfont'
     #print '{\\fontsize{1.5}{1.0}\\selectfont'
     print '  \\begin{tabular}{',
@@ -296,7 +296,8 @@ elif "tex" in options.format:
     print '\\hline'
 
     print '  \\end{tabular}',
-    print '}' 
+    #print '}' 
+    print ' ' 
     print '  \\caption{'
     print '     Summary table:: prefit rates for ', (the_only_channel).replace('_', '-'), ' .'
     sys.stdout.write ('\\label{tab:prefit-rates-' + (the_only_channel).replace('_', '-') + '}')
