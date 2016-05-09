@@ -16,6 +16,21 @@ look here:
 
 
 
+# Transform datacard into a pie chart:
+
+
+    cd /afs/cern.ch/user/a/amassiro/Limit/PlayWithDatacards
+    cd /afs/cern.ch/user/a/amassiro/Framework/Combine/CMSSW_7_1_15/src/HiggsAnalysis/CombinedLimit
+    cmsenv
+    scramv1 b -j 20
+    cd -
+
+    python pieFromCards.py  /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/Moriond2016-0j.txt  \
+                 --plotFile /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggH/plot.py
+
+    
+    
+
 # Transform datacard into a table:
 
 
@@ -123,27 +138,7 @@ e.g.
        
        
        
-       
-       
-       
-    python      systematicsAnalyzer.py    \
-        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggH/datacards/hww2l2v_13TeV_em_0j/mllVSmth/datacard.txt   \
-       --all    -m      125     -f      tex    >     hww2l2v_13TeV_em_0j.tex
-    
-    python      systematicsAnalyzer.py    \
-        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggH/datacards/hww2l2v_13TeV_me_0j/mllVSmth/datacard.txt   \
-       --all    -m      125     -f      tex    >     hww2l2v_13TeV_me_0j.tex
-    
-    python      systematicsAnalyzer.py    \
-        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggH/datacards/hww2l2v_13TeV_em_1j/mllVSmth/datacard.txt   \
-       --all    -m      125     -f      tex    >     hww2l2v_13TeV_em_1j.tex
-    
-    python      systematicsAnalyzer.py    \
-        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggH/datacards/hww2l2v_13TeV_me_1j/mllVSmth/datacard.txt   \
-       --all    -m      125     -f      tex    >     hww2l2v_13TeV_me_1j.tex
-    
-    
-    
+          
     
     
     

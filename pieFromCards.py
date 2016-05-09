@@ -78,7 +78,7 @@ for channel in DC.exp:
   print " channel = ", channel
   target = open('pie_'+channel+'.C', 'w')
 
-  target.write('int pie_' + channel + '(){  \n')
+  target.write('void pie_' + channel + '(){  \n')
 
   target.write('  TCanvas *cpie = new TCanvas("cpie","TPie test",700,700);')
   
@@ -108,8 +108,8 @@ for channel in DC.exp:
 
 
   target.write('  Float_t vals[] = {' + ', '.join(format(valueRate, "10.3f") for valueRate in allRate.values()) + '};   \n')
-  target.write('  Int_t colors[] = {' + ', '.join(format(plot[valueName]['color'], "10.3f") for valueName in allRate.keys()) + '};   \n')
-  target.write('  Int_t nvals = ' + str(len(allRate)) + '; \n')
+  target.write('  Int_t colors[] = {' + ', '.join(format(plot[valueName]['color'], "d") for valueName in allRate.keys()) + '};   \n')
+  target.write('  Int_t nvals = ' + str(int(len(allRate))) + '; \n')
     
   target.write('  TPie *pie4 = new TPie("pie4","",nvals,vals,colors);   \n')
   for isample in range(len(allRate)):
@@ -126,14 +126,15 @@ for channel in DC.exp:
   target.write('  pie4->SetLabelFormat("%txt");  \n')
   target.write('  pie4->Draw("nol <");  \n')
   target.write('  cpie2 -> SaveAs("pie_'+channel+'.png");  \n')
- 
+  target.write('\n')
+
  
  
  
   target.write('  Float_t vals_reduced[] = {' + format(allSignal, "10.3f") + ',' + ', '.join(format(valueRate, "10.3f") for valueRate in backgroundRate.values()) + '};   \n')
-  target.write('  Int_t colors_reduced[] = {' + format(632, "10.3f") + ',' + ', '.join(format(plot[valueName]['color'], "10.3f") for valueName in backgroundRate.keys()) + '};   \n')
+  target.write('  Int_t colors_reduced[] = {' + format(632, "d") + ',' + ', '.join(format(plot[valueName]['color'], "d") for valueName in backgroundRate.keys()) + '};   \n')
   #                                                   kRed
-  target.write('  Int_t nvals_reduced = ' + str(1+len(backgroundRate)) + '; \n')
+  target.write('  Int_t nvals_reduced = ' + str(int(1+len(backgroundRate))) + '; \n')
     
   target.write('  TPie *pie4_reduced = new TPie("pie4_reduced","",nvals_reduced,vals_reduced,colors_reduced);   \n')
   target.write('  pie4_reduced->SetEntryLabel(0, "Signal");  \n')
@@ -154,6 +155,8 @@ for channel in DC.exp:
  
  
   target.write('} \n')
+  target.write('\n')
+  
 
   target.close()
   
