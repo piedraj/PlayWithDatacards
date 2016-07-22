@@ -201,6 +201,9 @@ elif "tex" in options.format:
     backgrounds = DC.list_of_backgrounds()
     allprocesses = DC.list_of_procs()
 
+    signals_uncertainties = {}
+    backgrounds_uncertainties = {}
+    
     sys.stdout.write ('c|') # the column with the names   
     for signal in signals :
       sys.stdout.write ('c|')
@@ -236,6 +239,35 @@ elif "tex" in options.format:
            if signal in val['processes'] : 
              for x in sorted(val["bins"]): 
                 print (' &  %s'  % (errlines[nuis][x][signal])),
+                
+                uncertainty = (errlines[nuis][x][signal])
+                #print "uncertainty = ", uncertainty
+                if isinstance(uncertainty, list) : 
+                  symmetrized_error = (abs(uncertainty[0]-1) +  abs(uncertainty[1]-1)) / 2.
+                  uncertainty = symmetrized_error
+                else :
+                  #print ' ma quindi: uncertainty = ', uncertainty
+                  if not isinstance(uncertainty, (int, long, float)) :
+                    if '/' in uncertainty:
+                      #print 'ma perbacco ...', uncertainty
+                      uncertainty_split = uncertainty.split('/')
+                      #print "uncertainty_split = ", uncertainty_split
+                      uncertainty = (abs(float(uncertainty_split[0])-1) +  abs(float(uncertainty_split[1])-1)) / 2.
+                  else :
+                    if uncertainty != '-' :
+                      uncertainty = abs(1 - uncertainty)
+                    else :
+                      uncertainty = 0
+                #print "--> symmetrized_error = ", symmetrized_error
+                #print "uncertainty = ", uncertainty
+                
+                if signal in signals_uncertainties.keys() :
+                  #print "signals_uncertainties[", signal, "] = ", signals_uncertainties[signal]
+                  #print "uncertainty = ", uncertainty
+                  signals_uncertainties[signal] = sqrt(signals_uncertainties[signal] * signals_uncertainties[signal] + uncertainty*uncertainty)
+                else :
+                  signals_uncertainties[signal] = uncertainty
+                  
            else :
              print ' &  - ',
 
@@ -243,6 +275,27 @@ elif "tex" in options.format:
            if background in val['processes'] : 
              for x in sorted(val["bins"]): 
                 print (' &  %s'  % (errlines[nuis][x][background])),
+
+                uncertainty = (errlines[nuis][x][background])
+                if isinstance(uncertainty, list) : 
+                  symmetrized_error = (abs(uncertainty[0]-1) +  abs(uncertainty[1]-1)) / 2.
+                  uncertainty = symmetrized_error
+                else :
+                  if not isinstance(uncertainty, (int, long, float)) :
+                    if '/' in uncertainty:
+                      uncertainty_split = uncertainty.split('/')
+                      uncertainty = (abs(float(uncertainty_split[0])-1) +  abs(float(uncertainty_split[1])-1)) / 2.
+                  else :
+                    if uncertainty != '-' :
+                      uncertainty = abs(1 - uncertainty)
+                    else :
+                      uncertainty = 0
+                
+                if background in backgrounds_uncertainties.keys() :
+                  backgrounds_uncertainties[background] = sqrt(backgrounds_uncertainties[background] * backgrounds_uncertainties[background] + uncertainty*uncertainty)
+                else :
+                  backgrounds_uncertainties[background] = uncertainty
+
            else :
              print ' &  - ',
                        
@@ -285,14 +338,42 @@ elif "tex" in options.format:
     sys.stdout.write ('c|') # the column with the number   
     print '}'
 
+
+
     for signal in signals :
       print (" %13s " % signal.replace('_', '-')),
-      print (" & %.2f \\\\ " % DC.exp[the_only_channel][signal] )
+      print (" & %.2f $\\pm$ %.2f \\\\ " % (DC.exp[the_only_channel][signal] , DC.exp[the_only_channel][signal] * signals_uncertainties[signal]) )
+    print '\\hline'
+
+    total_signal = 0.0
+    total_uncertainty_signal = 0.0
+    for signal in signals :
+      total_signal += DC.exp[the_only_channel][signal]
+      total_uncertainty_signal = sqrt(total_uncertainty_signal*total_uncertainty_signal + DC.exp[the_only_channel][signal] * signals_uncertainties[signal]  * DC.exp[the_only_channel][signal] * signals_uncertainties[signal]) 
+
+    print (" Total Sig "),
+    print (" & %.2f $\\pm$ %.2f \\\\ " % (total_signal, total_uncertainty_signal) )
     print '\\hline'
       
     for background in backgrounds :
       print (" %13s " % background.replace('_', '-')),
-      print (" & %.2f \\\\ " % DC.exp[the_only_channel][background] )
+      print (" & %.2f $\\pm$ %.2f \\\\ " % (DC.exp[the_only_channel][background] , DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]) )
+    print '\\hline'
+
+    total_background = 0.0
+    total_uncertainty_background = 0.0
+    for background in backgrounds :
+      total_background += DC.exp[the_only_channel][background]
+      total_uncertainty_background = sqrt(total_uncertainty_background*total_uncertainty_background + DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]  * DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]) 
+      #print " total_uncertainty_background = ", total_uncertainty_background ,   " ( ", DC.exp[the_only_channel][background] * backgrounds_uncertainties[background], " ) "
+      
+      
+    print (" Total Bkg "),
+    print (" & %.2f $\\pm$ %.2f \\\\ " % (total_background, total_uncertainty_background) )
+    print '\\hline'
+
+    print (" Data "),
+    print (" & %.0f $\\pm$ %.0f \\\\ " % (DC.obs[the_only_channel], sqrt(DC.obs[the_only_channel])) )
     print '\\hline'
 
     print '  \\end{tabular}',
