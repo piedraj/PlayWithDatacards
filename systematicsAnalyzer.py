@@ -204,6 +204,9 @@ elif "tex" in options.format:
     signals_uncertainties = {}
     backgrounds_uncertainties = {}
     
+    map_all_sig_uncertainty = {}
+    map_all_bkg_uncertainty = {}
+    
     sys.stdout.write ('c|') # the column with the names   
     for signal in signals :
       sys.stdout.write ('c|')
@@ -231,6 +234,8 @@ elif "tex" in options.format:
 
     for nuis in names:
 
+         map_all_sig_uncertainty[nuis] = 0
+         
          val = report[nuis]
 
          print ("  %30s   " % (nuis.replace('_', '-')+"  ("+val['types']+")")),
@@ -268,8 +273,12 @@ elif "tex" in options.format:
                 else :
                   signals_uncertainties[signal] = uncertainty
                   
+                map_all_sig_uncertainty[nuis] = map_all_sig_uncertainty[nuis] + DC.exp[x][signal] * uncertainty
+
            else :
              print ' &  - ',
+
+         map_all_bkg_uncertainty[nuis] = 0
 
          for background in backgrounds :
            if background in val['processes'] : 
@@ -295,6 +304,8 @@ elif "tex" in options.format:
                   backgrounds_uncertainties[background] = sqrt(backgrounds_uncertainties[background] * backgrounds_uncertainties[background] + uncertainty*uncertainty)
                 else :
                   backgrounds_uncertainties[background] = uncertainty
+
+                map_all_bkg_uncertainty[nuis] = map_all_bkg_uncertainty[nuis] + DC.exp[x][background] * uncertainty
 
            else :
              print ' &  - ',
@@ -339,6 +350,15 @@ elif "tex" in options.format:
     print '}'
 
 
+    all_bkg_uncertainty = 0.0
+    for nuis, value in map_all_bkg_uncertainty.iteritems() :
+      all_bkg_uncertainty = sqrt(all_bkg_uncertainty*all_bkg_uncertainty + value*value)
+      
+    all_sig_uncertainty = 0.0
+    for nuis, value in map_all_sig_uncertainty.iteritems() :
+      all_sig_uncertainty = sqrt(all_sig_uncertainty*all_sig_uncertainty + value*value)
+    
+
 
     for signal in signals :
       print (" %13s " % signal.replace('_', '-')),
@@ -352,7 +372,7 @@ elif "tex" in options.format:
       total_uncertainty_signal = sqrt(total_uncertainty_signal*total_uncertainty_signal + DC.exp[the_only_channel][signal] * signals_uncertainties[signal]  * DC.exp[the_only_channel][signal] * signals_uncertainties[signal]) 
 
     print (" Total Sig "),
-    print (" & %.2f $\\pm$ %.2f \\\\ " % (total_signal, total_uncertainty_signal) )
+    print (" & %.2f $\\pm$ %.2f (%.2f) \\\\ " % (total_signal, total_uncertainty_signal, all_sig_uncertainty) )
     print '\\hline'
       
     for background in backgrounds :
@@ -366,10 +386,11 @@ elif "tex" in options.format:
       total_background += DC.exp[the_only_channel][background]
       total_uncertainty_background = sqrt(total_uncertainty_background*total_uncertainty_background + DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]  * DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]) 
       #print " total_uncertainty_background = ", total_uncertainty_background ,   " ( ", DC.exp[the_only_channel][background] * backgrounds_uncertainties[background], " ) "
-      
+     
+     
       
     print (" Total Bkg "),
-    print (" & %.2f $\\pm$ %.2f \\\\ " % (total_background, total_uncertainty_background) )
+    print (" & %.2f $\\pm$ %.2f (%.2f) \\\\ " % (total_background, total_uncertainty_background, all_bkg_uncertainty) )
     print '\\hline'
 
     print (" Data "),

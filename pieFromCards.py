@@ -153,7 +153,28 @@ for channel in DC.exp:
   target.write('  pie4_reduced->Draw("nol <");  \n')
   target.write('  cpie2_reduced -> SaveAs("pie_reduced_'+channel+'.png");  \n')
  
- 
+
+
+  target.write('  Float_t vals_reduced_signal[] = {' + ', '.join(format(valueRate, "10.3f") for valueRate in signalRate.values()) + '};   \n')
+  target.write('  Int_t colors_reduced_signal[] = {' + ', '.join(format(plot[valueName]['color'], "d") for valueName in signalRate.keys()) + '};   \n')
+  target.write('  Int_t nvals_reduced_signal = ' + str(int(len(signalRate))) + '; \n')
+    
+  target.write('  TPie *pie4_reduced_signal = new TPie("pie4_reduced_signal","",nvals_reduced_signal,vals_reduced_signal,colors_reduced_signal);   \n')
+  for isample in range(len(signalRate)):
+    target.write('  pie4_reduced_signal->SetEntryLabel(' + str(isample) + ', "' + signalRate.keys()[isample]  + '");  \n')
+
+
+  target.write('  pie4_reduced_signal->SetRadius(.2);  \n')
+  target.write('  pie4_reduced_signal->SetLabelsOffset(.01);  \n')
+  target.write('  pie4_reduced_signal->SetLabelFormat("%txt   %perc");  \n')
+  
+  target.write('  pie4_reduced_signal->Draw("nol <");  \n')
+  
+  target.write('  TCanvas *cpie2_reduced_signal = new TCanvas("cpie2_reduced_signal","TPie test",700,700);  \n')
+  target.write('  pie4_reduced_signal->SetLabelFormat("%txt");  \n')
+  target.write('  pie4_reduced_signal->Draw("nol <");  \n')
+  target.write('  cpie2_reduced_signal -> SaveAs("pie_reduced_signal_'+channel+'.png");  \n')
+
   target.write('} \n')
   target.write('\n')
   

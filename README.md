@@ -25,6 +25,14 @@ look here:
     scramv1 b -j 20
     cd -
 
+    
+    cd /afs/cern.ch/user/a/amassiro/Limit/PlayWithDatacards
+    cd /afs/cern.ch/user/a/amassiro/Framework/Combine/CMSSW_7_4_7/src/HiggsAnalysis/CombinedLimit
+    cmsenv
+    cd -
+
+        
+        
     python pieFromCards.py  /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/Moriond2016-0j.txt  \
                  --plotFile /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggH/plot.py
 
@@ -116,7 +124,11 @@ e.g.
     cd -
 
     
-    
+    cd /afs/cern.ch/user/a/amassiro/Limit/PlayWithDatacards
+    cd /afs/cern.ch/user/a/amassiro/Framework/Combine/CMSSW_7_4_7/src/HiggsAnalysis/CombinedLimit
+    cmsenv
+    cd -
+
     
     
     python      systematicsAnalyzer.py    \
