@@ -19,6 +19,9 @@ parser.add_option("-m", "--mass",    dest="mass",     default=0,  type="float", 
 parser.add_option("-D", "--dataset", dest="dataname", default="data_obs",  type="string",  help="Name of the observed dataset")
 parser.add_option("-a", "--all", dest="all", default=False,action='store_true',  help="Report all nuisances (default is only lnN)")
 parser.add_option("", "--noshape", dest="noshape", default=False,action='store_true',  help="Counting experiment only (alternatively, build a shape analysis from combineCards.py -S card.txt > newcard.txt )")
+parser.add_option("-o", "--output", dest="output", default="minitable.tex",     type="string",  help="Summary table")
+
+
 (options, args) = parser.parse_args()
 options.stat = False
 options.bin = True # fake that is a binary output, so that we parse shape lines
@@ -267,8 +270,8 @@ elif "tex" in options.format:
                 #print "uncertainty = ", uncertainty
                 
                 if signal in signals_uncertainties.keys() :
-                  #print "signals_uncertainties[", signal, "] = ", signals_uncertainties[signal]
-                  #print "uncertainty = ", uncertainty
+                  print "signals_uncertainties[", signal, "] = ", signals_uncertainties[signal]
+                  print "uncertainty = ", uncertainty
                   signals_uncertainties[signal] = sqrt(signals_uncertainties[signal] * signals_uncertainties[signal] + uncertainty*uncertainty)
                 else :
                   signals_uncertainties[signal] = uncertainty
@@ -331,7 +334,94 @@ elif "tex" in options.format:
     print ''
     
     
+    #
     # now summary table with rates
+    # into the summary table
+    # options.output
+    #
+    
+    
+    summaryTable = open( options.output ,"w")
+             
+    summaryTable.write('\n')
+    summaryTable.write('\n')
+    summaryTable.write('\n')
+    
+    summaryTable.write('\\begin{table}[h!]\\begin{center}\n')
+    summaryTable.write('  \\begin{tabular}{')
+
+    summaryTable.write('c|') # the column with the names   
+    summaryTable.write('c|') # the column with the number   
+    summaryTable.write('}\n')
+
+
+    all_bkg_uncertainty = 0.0
+    for nuis, value in map_all_bkg_uncertainty.iteritems() :
+      all_bkg_uncertainty = sqrt(all_bkg_uncertainty*all_bkg_uncertainty + value*value)
+      
+    all_sig_uncertainty = 0.0
+    for nuis, value in map_all_sig_uncertainty.iteritems() :
+      all_sig_uncertainty = sqrt(all_sig_uncertainty*all_sig_uncertainty + value*value)
+    
+
+
+    for signal in signals :
+      summaryTable.write(' %13s ' % signal.replace('_', '-'))
+      summaryTable.write(' & %.2f $\\pm$ %.2f \\\\ ' % (DC.exp[the_only_channel][signal] , DC.exp[the_only_channel][signal] * signals_uncertainties[signal]) )
+    summaryTable.write('\\hline\n')
+
+    total_signal = 0.0
+    total_uncertainty_signal = 0.0
+    for signal in signals :
+      total_signal += DC.exp[the_only_channel][signal]
+      total_uncertainty_signal = sqrt(total_uncertainty_signal*total_uncertainty_signal + DC.exp[the_only_channel][signal] * signals_uncertainties[signal]  * DC.exp[the_only_channel][signal] * signals_uncertainties[signal])
+      #print ' total_uncertainty_signal[', the_only_channel , '] = ', total_uncertainty_signal, ' signals_uncertainties[', signal, '] = ', signals_uncertainties[signal] 
+
+    summaryTable.write(' Total Sig ')
+    summaryTable.write(' & %.2f $\\pm$ %.2f (%.2f) \\\\ \n' % (total_signal, total_uncertainty_signal, all_sig_uncertainty) )
+    summaryTable.write('\\hline\n')
+      
+    for background in backgrounds :
+      summaryTable.write(' %13s ' % background.replace('_', '-'))
+      summaryTable.write(' & %.2f $\\pm$ %.2f \\\\  \n' % (DC.exp[the_only_channel][background] , DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]) )
+    summaryTable.write('\\hline\n')
+
+    total_background = 0.0
+    total_uncertainty_background = 0.0
+    for background in backgrounds :
+      total_background += DC.exp[the_only_channel][background]
+      total_uncertainty_background = sqrt(total_uncertainty_background*total_uncertainty_background + DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]  * DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]) 
+     
+     
+      
+    summaryTable.write(' Total Bkg ')
+    summaryTable.write(' & %.2f $\\pm$ %.2f (%.2f) \\\\ ' % (total_background, total_uncertainty_background, all_bkg_uncertainty) )
+    summaryTable.write('\\hline\n')
+
+    summaryTable.write(' Data ')
+    summaryTable.write(' & %.0f $\\pm$ %.0f \\\\ ' % (DC.obs[the_only_channel], sqrt(DC.obs[the_only_channel])) )
+    summaryTable.write('\\hline\n')
+
+    summaryTable.write('  \\end{tabular}')
+    summaryTable.write(' \n')
+    summaryTable.write('  \\caption{\n')
+    #summaryTable.write('     Summary table:: prefit rates for ', (the_only_channel).replace('_', '-'), ' .\n')
+    #summaryTable.write('\\label{tab:prefit-rates-' + (the_only_channel).replace('_', '-') + '}\n')
+    summaryTable.write('     Summary table:: prefit rates for %s . \n ' % ((the_only_channel).replace('_', '-')) )
+    summaryTable.write('\\label{tab:prefit-rates-%s}\n '  % ((the_only_channel).replace('_', '-')) )
+    summaryTable.write('  }\n')
+    summaryTable.write('\\end{center}\n')
+    summaryTable.write('\\end{table}\n')
+
+    
+    
+    
+    
+    
+    
+    
+    
+       # now summary table with rates
     
     print ''
     print ''
@@ -350,26 +440,10 @@ elif "tex" in options.format:
     print '}'
 
 
-    all_bkg_uncertainty = 0.0
-    for nuis, value in map_all_bkg_uncertainty.iteritems() :
-      all_bkg_uncertainty = sqrt(all_bkg_uncertainty*all_bkg_uncertainty + value*value)
-      
-    all_sig_uncertainty = 0.0
-    for nuis, value in map_all_sig_uncertainty.iteritems() :
-      all_sig_uncertainty = sqrt(all_sig_uncertainty*all_sig_uncertainty + value*value)
-    
-
-
     for signal in signals :
       print (" %13s " % signal.replace('_', '-')),
       print (" & %.2f $\\pm$ %.2f \\\\ " % (DC.exp[the_only_channel][signal] , DC.exp[the_only_channel][signal] * signals_uncertainties[signal]) )
     print '\\hline'
-
-    total_signal = 0.0
-    total_uncertainty_signal = 0.0
-    for signal in signals :
-      total_signal += DC.exp[the_only_channel][signal]
-      total_uncertainty_signal = sqrt(total_uncertainty_signal*total_uncertainty_signal + DC.exp[the_only_channel][signal] * signals_uncertainties[signal]  * DC.exp[the_only_channel][signal] * signals_uncertainties[signal]) 
 
     print (" Total Sig "),
     print (" & %.2f $\\pm$ %.2f (%.2f) \\\\ " % (total_signal, total_uncertainty_signal, all_sig_uncertainty) )
@@ -380,15 +454,6 @@ elif "tex" in options.format:
       print (" & %.2f $\\pm$ %.2f \\\\ " % (DC.exp[the_only_channel][background] , DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]) )
     print '\\hline'
 
-    total_background = 0.0
-    total_uncertainty_background = 0.0
-    for background in backgrounds :
-      total_background += DC.exp[the_only_channel][background]
-      total_uncertainty_background = sqrt(total_uncertainty_background*total_uncertainty_background + DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]  * DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]) 
-      #print " total_uncertainty_background = ", total_uncertainty_background ,   " ( ", DC.exp[the_only_channel][background] * backgrounds_uncertainties[background], " ) "
-     
-     
-      
     print (" Total Bkg "),
     print (" & %.2f $\\pm$ %.2f (%.2f) \\\\ " % (total_background, total_uncertainty_background, all_bkg_uncertainty) )
     print '\\hline'
@@ -411,7 +476,6 @@ elif "tex" in options.format:
     print ''
     print ''
     print ''
-    
     
     
  

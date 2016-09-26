@@ -114,6 +114,14 @@ e.g.
        --all    -m      125     -f      tex    >     hww2l2v_13TeV_em_0j.tex
     
 
+    python      test/systematicsAnalyzer.py    \
+        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggHTest/datacards/hww2l2v_13TeV_em_0j/mllVSmth/datacard.txt   \
+       --all    -m      125     -f      tex  \
+       -o miniTable_hww2l2v_13TeV_em_0j.tex    \
+       >     hww2l2v_13TeV_em_0j.tex
+
+
+
     
     # do all these steps
     
@@ -148,7 +156,21 @@ e.g.
        --all    -m      125     -f      tex    >     hww2l2v_13TeV_me_1j.tex
 
        
-       
+     
+    ICHEP
+    
+    
+    python      systematicsAnalyzer.py    \
+       /afs/cern.ch/user/a/amassiro/Framework/CMSSW_8_0_5/src/PlotsConfigurations/Configurations/ggH2j/datacards/hww2l2v_13TeV_of2j/mllVSmth/datacard.txt  \
+       --all    -m      125     -f      tex    >     hww2l2v_13TeV_of2j.tex
+     
+    python      systematicsAnalyzer.py    \
+        /afs/cern.ch/user/a/amassiro/Framework/CMSSW_8_0_5/src/PlotsConfigurations/Configurations/ggH/datacards/hww2l2v_13TeV_em_mp_0j/mllVSmth/datacard.txt   \
+       --all    -m      125     -f      tex    >     hww2l2v_13TeV_em_mp_0j.tex
+    
+     
+     /afs/cern.ch/user/a/amassiro/Limit/PlayWithDatacards/hww2l2v_13TeV_em_mp_0j.tex
+     
        
           
     
