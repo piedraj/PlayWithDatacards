@@ -138,6 +138,12 @@ e.g.
     cd -
 
     
+    python scripts/prepareTables.py
+    
+    python scripts/prepareTables.py | /bin/sh
+    
+    
+    
     
     python      systematicsAnalyzer.py    \
         /afs/cern.ch/user/a/amassiro/Framework/CMSSW_7_6_3/src/PlotsConfigurations/Configurations/ggH/datacards/hww2l2v_13TeV_em_0j/mllVSmth/datacard.txt.pruned.txt   \
@@ -174,6 +180,9 @@ e.g.
        
           
     
+    
+    
+
     
     
     
