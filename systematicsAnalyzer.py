@@ -375,14 +375,19 @@ elif "tex" in options.format:
 
     for signal in signals :
       summaryTable.write(' %13s ' % signal.replace('_', '-'))
-      summaryTable.write(' & %.2f $\\pm$ %.2f \\\\  \n ' % (DC.exp[the_only_channel][signal] , DC.exp[the_only_channel][signal] * signals_uncertainties[signal]) )
+      if signal in signals_uncertainties.keys() :
+        summaryTable.write(' & %.2f $\\pm$ %.2f \\\\  \n ' % (DC.exp[the_only_channel][signal] , DC.exp[the_only_channel][signal] * signals_uncertainties[signal]) )
+      else :
+        summaryTable.write(' & %.2f $\\pm$ %.2f \\\\  \n ' % (DC.exp[the_only_channel][signal] , DC.exp[the_only_channel][signal] * 0.) )        
     summaryTable.write('\\hline\n')
 
     total_signal = 0.0
     total_uncertainty_signal = 0.0
     for signal in signals :
       total_signal += DC.exp[the_only_channel][signal]
-      total_uncertainty_signal = sqrt(total_uncertainty_signal*total_uncertainty_signal + DC.exp[the_only_channel][signal] * signals_uncertainties[signal]  * DC.exp[the_only_channel][signal] * signals_uncertainties[signal])
+      if signal in signals_uncertainties.keys() :     
+        total_uncertainty_signal = sqrt(total_uncertainty_signal*total_uncertainty_signal + DC.exp[the_only_channel][signal] * signals_uncertainties[signal]  * DC.exp[the_only_channel][signal] * signals_uncertainties[signal])
+        
       #print ' total_uncertainty_signal[', the_only_channel , '] = ', total_uncertainty_signal, ' signals_uncertainties[', signal, '] = ', signals_uncertainties[signal] 
 
     summaryTable.write(' Total Sig ')
