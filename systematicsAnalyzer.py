@@ -20,7 +20,9 @@ parser.add_option("-D", "--dataset", dest="dataname", default="data_obs",  type=
 parser.add_option("-a", "--all", dest="all", default=False,action='store_true',  help="Report all nuisances (default is only lnN)")
 parser.add_option("", "--noshape", dest="noshape", default=False,action='store_true',  help="Counting experiment only (alternatively, build a shape analysis from combineCards.py -S card.txt > newcard.txt )")
 parser.add_option("-o", "--output", dest="output", default="minitable.tex",     type="string",  help="Summary table")
+parser.add_option("", "--blind", dest="blind", default=False,    help="blind (default is false)")
 
+                      
 
 (options, args) = parser.parse_args()
 options.stat = False
@@ -35,6 +37,8 @@ options.poisson = 0
 options.nuisancesToExclude = []
 options.noJMax = True
 options.allowNoSignal = True
+
+
 
 # import ROOT with a fix to get batch mode (http://root.cern.ch/phpBB3/viewtopic.php?t=3198)
 import sys
@@ -367,7 +371,7 @@ elif "tex" in options.format:
 
     for signal in signals :
       summaryTable.write(' %13s ' % signal.replace('_', '-'))
-      summaryTable.write(' & %.2f $\\pm$ %.2f \\\\ ' % (DC.exp[the_only_channel][signal] , DC.exp[the_only_channel][signal] * signals_uncertainties[signal]) )
+      summaryTable.write(' & %.2f $\\pm$ %.2f \\\\  \n ' % (DC.exp[the_only_channel][signal] , DC.exp[the_only_channel][signal] * signals_uncertainties[signal]) )
     summaryTable.write('\\hline\n')
 
     total_signal = 0.0
@@ -395,12 +399,13 @@ elif "tex" in options.format:
      
       
     summaryTable.write(' Total Bkg ')
-    summaryTable.write(' & %.2f $\\pm$ %.2f (%.2f) \\\\ ' % (total_background, total_uncertainty_background, all_bkg_uncertainty) )
+    summaryTable.write(' & %.2f $\\pm$ %.2f (%.2f) \\\\ \n' % (total_background, total_uncertainty_background, all_bkg_uncertainty) )
     summaryTable.write('\\hline\n')
 
-    summaryTable.write(' Data ')
-    summaryTable.write(' & %.0f $\\pm$ %.0f \\\\ ' % (DC.obs[the_only_channel], sqrt(DC.obs[the_only_channel])) )
-    summaryTable.write('\\hline\n')
+    if not options.blind :
+      summaryTable.write(' Data ')
+      summaryTable.write(' & %.0f $\\pm$ %.0f \\\\ \n' % (DC.obs[the_only_channel], sqrt(DC.obs[the_only_channel])) )
+      summaryTable.write('\\hline\n')
 
     summaryTable.write('  \\end{tabular}')
     summaryTable.write(' \n')
@@ -413,7 +418,7 @@ elif "tex" in options.format:
     summaryTable.write('\\end{center}\n')
     summaryTable.write('\\end{table}\n')
 
-    
+    summaryTable.close()
     
     
     
@@ -478,5 +483,8 @@ elif "tex" in options.format:
     print ''
     
     
+ 
+ 
+    #print "blind = ", options.blind
  
     
