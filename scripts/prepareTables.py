@@ -66,9 +66,9 @@ for datacardName, datacard in list_datacards.iteritems():
   datacardName = datacardName.replace(' ', '')
   
   if datacard[1] == "False" :
-    sys.stdout.write(' python      systematicsAnalyzer.py ' + folder + '/' + datacard[0]                  + ' --all    -m      125     -f    tex    -o miniTable_' +  datacardName +  '.tex     >    ' +   datacardName +  '.tex   \n')
+    sys.stdout.write(' python      systematicsAnalyzer.py ' + folder + '/' + datacard[0]                  + ' --all  --legend  ' + datacardName + '   -m      125     -f    tex    -o miniTable_' +  datacardName +  '.tex     >    ' +   datacardName +  '.tex   \n')
   else :
-    sys.stdout.write(' python      systematicsAnalyzer.py ' + folder + '/' + datacard[0] +  '   --blind ' + ' --all    -m      125     -f    tex    -o miniTable_' +  datacardName +  '.tex     >    ' +   datacardName +  '.tex   \n')
+    sys.stdout.write(' python      systematicsAnalyzer.py ' + folder + '/' + datacard[0] +  '   --blind ' + ' --all  --legend  ' + datacardName + '   -m      125     -f    tex    -o miniTable_' +  datacardName +  '.tex     >    ' +   datacardName +  '.tex   \n')
   
 
 

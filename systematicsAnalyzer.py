@@ -21,6 +21,7 @@ parser.add_option("-a", "--all",     dest="all",      default=False, action='sto
 parser.add_option("", "--noshape",   dest="noshape",  default=False, action='store_true',  help="Counting experiment only (alternatively, build a shape analysis from combineCards.py -S card.txt > newcard.txt )")
 parser.add_option("-o", "--output",  dest="output",   default="minitable.tex", type="string",  help="Summary table")
 parser.add_option("", "--blind",     dest="blind",    default=False, action='store_true',  help="blind (default is false)")
+parser.add_option("", "--legend",    dest="legend",   default="",              type="string",  help="Addition information in caption")
 
                       
 
@@ -420,7 +421,16 @@ elif "tex" in options.format:
     #summaryTable.write('     Summary table:: prefit rates for ', (the_only_channel).replace('_', '-'), ' .\n')
     #summaryTable.write('\\label{tab:prefit-rates-' + (the_only_channel).replace('_', '-') + '}\n')
     summaryTable.write('     Summary table:: prefit rates for %s . \n ' % ((the_only_channel).replace('_', '-')) )
-    summaryTable.write('\\label{tab:prefit-yields-%s}\n '  % ((the_only_channel).replace('_', '-')) )
+    if options.legend != "" :
+      summaryTable.write('Data %s . \n'  % (options.legend).replace('_', '-') )
+    
+    summaryTable.write('\\label{tab:prefit-yields-%s'  % ((the_only_channel).replace('_', '-')) )
+    
+    if options.legend != "" :
+      summaryTable.write('%s'  % (options.legend) )
+    
+    summaryTable.write('}\n ' )
+    
     summaryTable.write('  }\n')
     summaryTable.write('\\end{center}\n')
     summaryTable.write('\\end{table}\n')
