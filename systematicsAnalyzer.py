@@ -14,13 +14,13 @@ os.environ['TERM'] = 'linux'
 
 
 parser = OptionParser()
-parser.add_option("-f", "--format",  type="string",   dest="format", default="html", help="Format for output number")
-parser.add_option("-m", "--mass",    dest="mass",     default=0,  type="float",  help="Higgs mass to use. Will also be written in the Workspace as RooRealVar 'MH'.")
-parser.add_option("-D", "--dataset", dest="dataname", default="data_obs",  type="string",  help="Name of the observed dataset")
-parser.add_option("-a", "--all", dest="all", default=False,action='store_true',  help="Report all nuisances (default is only lnN)")
-parser.add_option("", "--noshape", dest="noshape", default=False,action='store_true',  help="Counting experiment only (alternatively, build a shape analysis from combineCards.py -S card.txt > newcard.txt )")
-parser.add_option("-o", "--output", dest="output", default="minitable.tex",     type="string",  help="Summary table")
-parser.add_option("", "--blind", dest="blind", default=False,    help="blind (default is false)")
+parser.add_option("-f", "--format",  dest="format",   default="html",          type="string",  help="Format for output number")
+parser.add_option("-m", "--mass",    dest="mass",     default=0,               type="float",  help="Higgs mass to use. Will also be written in the Workspace as RooRealVar 'MH'.")
+parser.add_option("-D", "--dataset", dest="dataname", default="data_obs",      type="string",  help="Name of the observed dataset")
+parser.add_option("-a", "--all",     dest="all",      default=False, action='store_true',  help="Report all nuisances (default is only lnN)")
+parser.add_option("", "--noshape",   dest="noshape",  default=False, action='store_true',  help="Counting experiment only (alternatively, build a shape analysis from combineCards.py -S card.txt > newcard.txt )")
+parser.add_option("-o", "--output",  dest="output",   default="minitable.tex", type="string",  help="Summary table")
+parser.add_option("", "--blind",     dest="blind",    default=False, action='store_true',  help="blind (default is false)")
 
                       
 
@@ -352,12 +352,15 @@ elif "tex" in options.format:
     summaryTable.write('\n')
     
     summaryTable.write('\\begin{table}[h!]\\begin{center}\n')
-    summaryTable.write('  \\begin{tabular}{')
+    summaryTable.write('  \\begin{tabular}{|')
 
     summaryTable.write('c|') # the column with the names   
     summaryTable.write('c|') # the column with the number   
     summaryTable.write('}\n')
 
+    summaryTable.write('\\hline\n')
+    summaryTable.write('Sample   &   Yield  \\\\ \n')
+    summaryTable.write('\\hline\n')
 
     all_bkg_uncertainty = 0.0
     for nuis, value in map_all_bkg_uncertainty.iteritems() :
@@ -387,14 +390,18 @@ elif "tex" in options.format:
       
     for background in backgrounds :
       summaryTable.write(' %13s ' % background.replace('_', '-'))
-      summaryTable.write(' & %.2f $\\pm$ %.2f \\\\  \n' % (DC.exp[the_only_channel][background] , DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]) )
+      if background in backgrounds_uncertainties.keys():
+        summaryTable.write(' & %.2f $\\pm$ %.2f \\\\  \n' % (DC.exp[the_only_channel][background] , DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]) )
+      else :
+        summaryTable.write(' & %.2f $\\pm$ %.2f \\\\  \n' % (DC.exp[the_only_channel][background] , DC.exp[the_only_channel][background] * 0. ) )        
     summaryTable.write('\\hline\n')
 
     total_background = 0.0
     total_uncertainty_background = 0.0
     for background in backgrounds :
       total_background += DC.exp[the_only_channel][background]
-      total_uncertainty_background = sqrt(total_uncertainty_background*total_uncertainty_background + DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]  * DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]) 
+      if background in backgrounds_uncertainties.keys():
+        total_uncertainty_background = sqrt(total_uncertainty_background*total_uncertainty_background + DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]  * DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]) 
      
      
       
@@ -413,7 +420,7 @@ elif "tex" in options.format:
     #summaryTable.write('     Summary table:: prefit rates for ', (the_only_channel).replace('_', '-'), ' .\n')
     #summaryTable.write('\\label{tab:prefit-rates-' + (the_only_channel).replace('_', '-') + '}\n')
     summaryTable.write('     Summary table:: prefit rates for %s . \n ' % ((the_only_channel).replace('_', '-')) )
-    summaryTable.write('\\label{tab:prefit-rates-%s}\n '  % ((the_only_channel).replace('_', '-')) )
+    summaryTable.write('\\label{tab:prefit-yields-%s}\n '  % ((the_only_channel).replace('_', '-')) )
     summaryTable.write('  }\n')
     summaryTable.write('\\end{center}\n')
     summaryTable.write('\\end{table}\n')
@@ -456,7 +463,10 @@ elif "tex" in options.format:
       
     for background in backgrounds :
       print (" %13s " % background.replace('_', '-')),
-      print (" & %.2f $\\pm$ %.2f \\\\ " % (DC.exp[the_only_channel][background] , DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]) )
+      if background in backgrounds_uncertainties.keys() :
+        print (" & %.2f $\\pm$ %.2f \\\\ " % (DC.exp[the_only_channel][background] , DC.exp[the_only_channel][background] * backgrounds_uncertainties[background]) )
+      else :
+        print (" & %.2f $\\pm$ %.2f \\\\ " % (DC.exp[the_only_channel][background] , DC.exp[the_only_channel][background] * 0.    ) )
     print '\\hline'
 
     print (" Total Bkg "),

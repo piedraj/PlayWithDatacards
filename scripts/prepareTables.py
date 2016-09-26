@@ -65,12 +65,24 @@ for datacardName, datacard in list_datacards.iteritems():
   
   datacardName = datacardName.replace(' ', '')
   
-  sys.stdout.write(' python      systematicsAnalyzer.py ' + folder + '/' + datacard[0] +  '   --blind ' + datacard[1] +' --all    -m      125     -f    tex    -o miniTable_' +  datacardName +  '.tex     >    ' +   datacardName +  '.tex   \n')
+  if datacard[1] == "False" :
+    sys.stdout.write(' python      systematicsAnalyzer.py ' + folder + '/' + datacard[0]                  + ' --all    -m      125     -f    tex    -o miniTable_' +  datacardName +  '.tex     >    ' +   datacardName +  '.tex   \n')
+  else :
+    sys.stdout.write(' python      systematicsAnalyzer.py ' + folder + '/' + datacard[0] +  '   --blind ' + ' --all    -m      125     -f    tex    -o miniTable_' +  datacardName +  '.tex     >    ' +   datacardName +  '.tex   \n')
   
 
 
 
 
+#for datacardName, datacard in list_datacards.iteritems():
+  #datacardName = datacardName.replace(' ', '')
+  #sys.stdout.write(' mkdir ~/public/xLatinos/ICHEP2016/' + datacardName + '\n')
+  #sys.stdout.write(' cp    ' + folder +  datacard[0]  + '  ~/public/xLatinos/ICHEP2016/' +  datacardName +  '/    \n')
+  
+ 
+ 
+ 
+ 
 
 
 
