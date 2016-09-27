@@ -254,7 +254,7 @@ elif "tex" in options.format:
                 print (' &  %s'  % (errlines[nuis][x][signal])),
                 
                 uncertainty = (errlines[nuis][x][signal])
-                #print "uncertainty = ", uncertainty
+                print "uncertainty = ", uncertainty
                 if isinstance(uncertainty, list) : 
                   symmetrized_error = (abs(uncertainty[0]-1) +  abs(uncertainty[1]-1)) / 2.
                   uncertainty = symmetrized_error
@@ -275,13 +275,16 @@ elif "tex" in options.format:
                 #print "uncertainty = ", uncertainty
                 
                 if signal in signals_uncertainties.keys() :
-                  print "signals_uncertainties[", signal, "] = ", signals_uncertainties[signal]
-                  print "uncertainty = ", uncertainty
-                  signals_uncertainties[signal] = sqrt(signals_uncertainties[signal] * signals_uncertainties[signal] + uncertainty*uncertainty)
+                  if not isnan(float(uncertainty)) :
+                    print "signals_uncertainties[", signal, "] = ", signals_uncertainties[signal]
+                    #print "uncertainty = ", uncertainty
+                    signals_uncertainties[signal] = sqrt(signals_uncertainties[signal] * signals_uncertainties[signal] + uncertainty*uncertainty)
                 else :
-                  signals_uncertainties[signal] = uncertainty
+                  if not isnan(float(uncertainty)) :
+                    signals_uncertainties[signal] = uncertainty
                   
-                map_all_sig_uncertainty[nuis] = map_all_sig_uncertainty[nuis] + DC.exp[x][signal] * uncertainty
+                if not isnan(float(uncertainty)) :
+                  map_all_sig_uncertainty[nuis] = map_all_sig_uncertainty[nuis] + DC.exp[x][signal] * uncertainty
 
            else :
              print ' &  - ',
@@ -307,13 +310,14 @@ elif "tex" in options.format:
                       uncertainty = abs(1 - uncertainty)
                     else :
                       uncertainty = 0
-                
-                if background in backgrounds_uncertainties.keys() :
-                  backgrounds_uncertainties[background] = sqrt(backgrounds_uncertainties[background] * backgrounds_uncertainties[background] + uncertainty*uncertainty)
-                else :
-                  backgrounds_uncertainties[background] = uncertainty
+ 
+                if not isnan(float(uncertainty)) :
+                  if background in backgrounds_uncertainties.keys() :
+                    backgrounds_uncertainties[background] = sqrt(backgrounds_uncertainties[background] * backgrounds_uncertainties[background] + uncertainty*uncertainty)
+                  else :
+                    backgrounds_uncertainties[background] = uncertainty
 
-                map_all_bkg_uncertainty[nuis] = map_all_bkg_uncertainty[nuis] + DC.exp[x][background] * uncertainty
+                  map_all_bkg_uncertainty[nuis] = map_all_bkg_uncertainty[nuis] + DC.exp[x][background] * uncertainty
 
            else :
              print ' &  - ',
@@ -372,6 +376,7 @@ elif "tex" in options.format:
       all_sig_uncertainty = sqrt(all_sig_uncertainty*all_sig_uncertainty + value*value)
     
 
+    #print " signals_uncertainties = ", signals_uncertainties
 
     for signal in signals :
       summaryTable.write(' %13s ' % signal.replace('_', '-'))
