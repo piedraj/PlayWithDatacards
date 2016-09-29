@@ -311,6 +311,7 @@ elif "tex" in options.format:
                     else :
                       uncertainty = 0
  
+                #print " uncertainty = ", uncertainty
                 if not isnan(float(uncertainty)) :
                   if background in backgrounds_uncertainties.keys() :
                     backgrounds_uncertainties[background] = sqrt(backgrounds_uncertainties[background] * backgrounds_uncertainties[background] + uncertainty*uncertainty)
