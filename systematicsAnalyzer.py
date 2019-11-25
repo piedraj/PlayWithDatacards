@@ -38,7 +38,8 @@ options.poisson = 0
 options.nuisancesToExclude = []
 options.noJMax = True
 options.allowNoSignal = True
-
+options.modelparams = ""
+options.optimizeTemplateBins = False
 
 
 # import ROOT with a fix to get batch mode (http://root.cern.ch/phpBB3/viewtopic.php?t=3198)
